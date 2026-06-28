@@ -224,6 +224,22 @@ uvicorn server.main:app --port 5000 --reload
 5. Explore os [Casos de Uso](13_CASOS_DE_USO/) para ver aplicações práticas
 6. Consulte o [Manual Operacional](12_DOCUMENTACAO/cap38_manual_operacional.md) para uso diário
 
+### Migrações de Banco de Dados
+
+```bash
+# Aplicar migrações pendentes (criar/atualizar tabelas)
+alembic upgrade head
+
+# Gerar nova migração após alterar modelos
+alembic revision --autogenerate -m "descricao_da_alteracao"
+
+# Ver migração atual
+alembic current
+
+# Ver histórico de migrações
+alembic history
+```
+
 ---
 
 ## 🌐 Aplicação Web

@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Montserrat:wght@100;200;300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
     <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
     <!-- Styles -->
     <link rel="stylesheet" href="css/styles.css">
@@ -161,33 +161,33 @@
     </div><!-- /#app -->
 
     <!-- ═══════════════════════════════════════════
-         JS MODULES (load order matters)
+         JS MODULES (load order matters — defer preserves order)
          ═══════════════════════════════════════════ -->
-    <script src="js/taxonomy.js"></script>
-    <script src="js/store.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/analyzer.js"></script>
-    <script src="js/classifier.js"></script>
-    <script src="js/charts.js"></script>
+    <script defer src="js/taxonomy.js"></script>
+    <script defer src="js/store.js"></script>
+    <script defer src="js/auth.js"></script>
+    <script defer src="js/utils.js"></script>
+    <script defer src="js/analyzer.js"></script>
+    <script defer src="js/classifier.js"></script>
+    <script defer src="js/charts.js"></script>
 
     <!-- Page modules -->
-    <script src="js/pages/login.js"></script>
-    <script src="js/pages/dashboard.js"></script>
-    <script src="js/pages/upload.js"></script>
-    <script src="js/pages/documents.js"></script>
-    <script src="js/pages/analysis.js"></script>
-    <script src="js/pages/processes.js"></script>
-    <script src="js/pages/taxonomy-page.js"></script>
-    <script src="js/pages/settings.js"></script>
+    <script defer src="js/pages/login.js"></script>
+    <script defer src="js/pages/dashboard.js"></script>
+    <script defer src="js/pages/upload.js"></script>
+    <script defer src="js/pages/documents.js"></script>
+    <script defer src="js/pages/analysis.js"></script>
+    <script defer src="js/pages/processes.js"></script>
+    <script defer src="js/pages/taxonomy-page.js"></script>
+    <script defer src="js/pages/settings.js"></script>
 
     <!-- MIJ Module (Premium) -->
-    <script src="js/pages/mij-dashboard.js"></script>
-    <script src="js/pages/mij-magistrados.js"></script>
-    <script src="js/pages/mij-simulador.js"></script>
+    <script defer src="js/pages/mij-dashboard.js"></script>
+    <script defer src="js/pages/mij-magistrados.js"></script>
+    <script defer src="js/pages/mij-simulador.js"></script>
 
     <!-- App bootstrap (must be last) -->
-    <script src="js/app.js"></script>
+    <script defer src="js/app.js"></script>
 
 </body>
 </html>

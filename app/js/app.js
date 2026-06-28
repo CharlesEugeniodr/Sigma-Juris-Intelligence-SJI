@@ -115,18 +115,38 @@ class SJIFApp {
         case 'settings':
           if (window.SettingsPage) await window.SettingsPage.render();
           break;
-        // MIJ Routes
+        // MIJ Routes (lazy-loaded — graceful fallback if module not yet available)
         case 'mij':
           if (param === 'magistrados') {
-            if (window.MIJMagistradosPage) await window.MIJMagistradosPage.render();
+            if (window.MIJMagistradosPage) {
+              await window.MIJMagistradosPage.render();
+            } else {
+              container.innerHTML = '<div class="empty-state"><p>Carregando módulo MIJ Magistrados...</p></div>';
+            }
           } else if (param === 'simulador') {
-            if (window.MIJSimuladorPage) await window.MIJSimuladorPage.render();
+            if (window.MIJSimuladorPage) {
+              await window.MIJSimuladorPage.render();
+            } else {
+              container.innerHTML = '<div class="empty-state"><p>Carregando módulo MIJ Simulador...</p></div>';
+            }
           } else if (param === 'tribunal') {
-            if (window.MIJDashboardPage) await window.MIJDashboardPage.render('tribunal');
+            if (window.MIJDashboardPage) {
+              await window.MIJDashboardPage.render('tribunal');
+            } else {
+              container.innerHTML = '<div class="empty-state"><p>Carregando módulo MIJ...</p></div>';
+            }
           } else if (param === 'relatorio') {
-            if (window.MIJDashboardPage) await window.MIJDashboardPage.render();
+            if (window.MIJDashboardPage) {
+              await window.MIJDashboardPage.render();
+            } else {
+              container.innerHTML = '<div class="empty-state"><p>Carregando módulo MIJ...</p></div>';
+            }
           } else {
-            if (window.MIJDashboardPage) await window.MIJDashboardPage.render();
+            if (window.MIJDashboardPage) {
+              await window.MIJDashboardPage.render();
+            } else {
+              container.innerHTML = '<div class="empty-state"><p>Carregando módulo MIJ...</p></div>';
+            }
           }
           break;
         default:
