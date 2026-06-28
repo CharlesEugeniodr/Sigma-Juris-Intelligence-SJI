@@ -3,7 +3,6 @@ Router de documentos — CRUD + análise.
 """
 import json
 import uuid
-import random
 from datetime import datetime, timezone
 from typing import Optional
 
@@ -16,6 +15,7 @@ from server.database import get_db
 from server.models.document import Document
 from server.models.user import User
 from server.services.auth_service import get_current_user
+from server.analysis.analyzer import DocumentAnalyzer
 
 router = APIRouter(prefix="/api/documents", tags=["Documentos"])
 
@@ -278,24 +278,13 @@ async def analyze_document(
             detail="Documento não encontrado",
         )
 
-    # Mock analysis
-    mock_score = round(random.uniform(60.0, 98.0), 1)
-    mock_analysis = {
-        "score": mock_score,
-        "risco": "baixo" if mock_score >= 80 else "médio" if mock_score >= 60 else "alto",
-        "conformidade": round(random.uniform(70.0, 100.0), 1),
-        "completude": round(random.uniform(65.0, 100.0), 1),
-        "sugestoes": [
-            "Verificar cláusulas de rescisão",
-            "Incluir previsão de multa contratual",
-            "Revisar prazos processuais",
-        ],
-        "analisado_em": datetime.now(timezone.utc).isoformat(),
-    }
+    # Real SJIF analysis
+    analyzer = DocumentAnalyzer()
+    analysis_result = analyzer.analyze(doc.content or '')
 
-    doc.score = mock_score
-    doc.status = "analyzed"
-    doc.analysis_json = json.dumps(mock_analysis, ensure_ascii=False)
+    doc.score = analysis_result['score']
+    doc.status = 'analyzed'
+    doc.analysis_json = json.dumps(analysis_result, ensure_ascii=False)
     doc.analyzed_at = datetime.now(timezone.utc)
 
     await db.flush()

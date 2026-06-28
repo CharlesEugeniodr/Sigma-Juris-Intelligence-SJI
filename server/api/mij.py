@@ -129,6 +129,7 @@ async def search_magistrados(
     skip: int = Query(0, ge=0),
     limit: int = Query(50, ge=1, le=200),
     db: AsyncSession = Depends(get_db),
+    current_user=Depends(get_current_user),
 ):
     """Pesquisa magistrados com filtros opcionais."""
     query = select(Magistrado)
@@ -164,6 +165,7 @@ async def search_magistrados(
 async def get_magistrado(
     mag_id: int,
     db: AsyncSession = Depends(get_db),
+    current_user=Depends(get_current_user),
 ):
     """Retorna perfil completo do magistrado com métricas."""
     result = await db.execute(select(Magistrado).where(Magistrado.id == mag_id))
@@ -184,6 +186,7 @@ async def get_magistrado_decisoes(
     skip: int = Query(0, ge=0),
     limit: int = Query(50, ge=1, le=200),
     db: AsyncSession = Depends(get_db),
+    current_user=Depends(get_current_user),
 ):
     """Lista decisões de um magistrado com paginação."""
     # Verify magistrado exists
@@ -219,6 +222,7 @@ async def get_magistrado_decisoes(
 @router.get("/tribunais", response_model=list[TribunalStats])
 async def list_tribunais(
     db: AsyncSession = Depends(get_db),
+    current_user=Depends(get_current_user),
 ):
     """Lista tribunais com métricas agregadas."""
     result = await db.execute(
@@ -256,6 +260,7 @@ async def list_tribunais(
 async def get_tribunal_materias(
     sigla: str,
     db: AsyncSession = Depends(get_db),
+    current_user=Depends(get_current_user),
 ):
     """Taxas de êxito por matéria em um tribunal."""
     sigla_upper = sigla.upper()
@@ -319,6 +324,7 @@ async def get_tribunal_materias(
 async def simular_exito(
     body: SimuladorRequest,
     db: AsyncSession = Depends(get_db),
+    current_user=Depends(get_current_user),
 ):
     """
     Simula o êxito de uma ação judicial.
@@ -422,7 +428,7 @@ async def simular_exito(
                 processo=d.processo_numero,
                 tipo=d.tipo,
                 resultado=d.resultado,
-                ementa=d.ementa[:300] if d.ementa else None,
+                ementa=(d.ementa or '')[:300] or None,
                 data=d.data_decisao.isoformat() if d.data_decisao else None,
             )
         )
@@ -448,6 +454,7 @@ async def simular_exito(
 @router.get("/stats", response_model=MIJDashboardStats)
 async def mij_stats(
     db: AsyncSession = Depends(get_db),
+    current_user=Depends(get_current_user),
 ):
     """Estatísticas do dashboard MIJ."""
     # Total magistrados
