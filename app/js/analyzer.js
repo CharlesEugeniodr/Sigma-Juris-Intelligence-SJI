@@ -11,14 +11,7 @@
 (function () {
   'use strict';
 
-  // ─── ID Generator ───────────────────────────────────────────────────
-  var _idCounter = 0;
-  function generateId() {
-    _idCounter++;
-    var ts = Date.now().toString(36);
-    var rnd = Math.random().toString(36).substring(2, 8);
-    return 'sjif-' + ts + '-' + rnd + '-' + _idCounter;
-  }
+  // ─── ID Generator (delegated to SJIFUtils) ────────────────────────
 
   // ─── Accent Removal Utility ─────────────────────────────────────────
   var ACCENT_MAP = {
@@ -113,7 +106,7 @@
     var weaknesses = this._generateWeaknesses(elements, coerencia);
 
     return {
-      id: generateId(),
+      id: window.SJIFUtils.generateId(),
       timestamp: new Date().toISOString(),
       documentType: documentType || { typeCode: 'desconhecido', typeName: 'Não classificado' },
       elements: elements,

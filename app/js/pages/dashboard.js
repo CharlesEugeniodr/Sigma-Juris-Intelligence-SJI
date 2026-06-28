@@ -198,10 +198,7 @@ window.DashboardPage = {
         var score = doc.analysis ? (doc.analysis.score || 0) : '-';
         var scoreClass = '';
         if (typeof score === 'number') {
-          if (score > 80) scoreClass = 'score-high';
-          else if (score > 60) scoreClass = 'score-mid';
-          else if (score > 40) scoreClass = 'score-low-mid';
-          else scoreClass = 'score-low';
+          scoreClass = SJIFUtils.getScoreClass(score);
         }
         var dateStr = window.SJIFUtils.formatDate(doc.createdAt || doc.date || new Date());
         var typeName = doc.typeName || doc.type || 'N/A';

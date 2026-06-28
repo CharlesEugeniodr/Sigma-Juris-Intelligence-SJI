@@ -23,17 +23,7 @@
     'MIN-PAE':       'Plano de Aproveitamento Econômico'
   };
 
-  // ── UUID v4 generator ────────────────────────────────────────────────
-  function generateUUID() {
-    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-      return crypto.randomUUID();
-    }
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = (Math.random() * 16) | 0;
-      var v = c === 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
-  }
+  // ── UUID v4 generator (delegated to SJIFUtils) ──────────────────────
 
   // ── Random date within the last N days ───────────────────────────────
   function randomDateInLastDays(days) {
@@ -124,7 +114,7 @@
     //  Documents CRUD
     // ════════════════════════════════════════════════════════════════════
     async addDocument(doc) {
-      if (!doc.id) doc.id = generateUUID();
+      if (!doc.id) doc.id = window.SJIFUtils.generateId();
       if (!doc.uploadedAt) doc.uploadedAt = new Date().toISOString();
       if (!doc.status) doc.status = 'pending';
       var store = this._getStore('documents', 'readwrite');
@@ -164,7 +154,7 @@
     //  Processes CRUD
     // ════════════════════════════════════════════════════════════════════
     async addProcess(proc) {
-      if (!proc.id) proc.id = generateUUID();
+      if (!proc.id) proc.id = window.SJIFUtils.generateId();
       if (!proc.status) proc.status = 'active';
       if (!proc.createdAt) proc.createdAt = new Date().toISOString();
       var store = this._getStore('processes', 'readwrite');
@@ -195,7 +185,7 @@
     //  Analyses CRUD
     // ════════════════════════════════════════════════════════════════════
     async addAnalysis(analysis) {
-      if (!analysis.id) analysis.id = generateUUID();
+      if (!analysis.id) analysis.id = window.SJIFUtils.generateId();
       if (!analysis.createdAt) analysis.createdAt = new Date().toISOString();
       var store = this._getStore('analyses', 'readwrite');
       await this._promisify(store.add(analysis));
@@ -421,7 +411,7 @@
       var docIds = [];
       for (var i = 0; i < demoDocuments.length; i++) {
         var doc = demoDocuments[i];
-        doc.id = generateUUID();
+        doc.id = window.SJIFUtils.generateId();
         doc.type = TYPE_MAP[doc.typeCode] || doc.typeCode;
         doc.uploadedAt = randomDateInLastDays(90);
         doc.analyzedAt = new Date(
@@ -439,7 +429,7 @@
       // ── 4 processes ──────────────────────────────────────────────────
       var demoProcesses = [
         {
-          id: generateUUID(),
+          id: window.SJIFUtils.generateId(),
           number: '0001234-56.2026.8.13.0001',
           area: 'Cível',
           court: 'TJMG',
@@ -448,7 +438,7 @@
           documents: [docIds[0], docIds[1]]
         },
         {
-          id: generateUUID(),
+          id: window.SJIFUtils.generateId(),
           number: '0005678-90.2025.8.13.0002',
           area: 'Tributário',
           court: 'TRF-1',
@@ -457,7 +447,7 @@
           documents: [docIds[12], docIds[13]]
         },
         {
-          id: generateUUID(),
+          id: window.SJIFUtils.generateId(),
           number: '0009876-54.2026.8.13.0003',
           area: 'Ambiental',
           court: 'TJMG',
@@ -466,7 +456,7 @@
           documents: [docIds[14], docIds[15]]
         },
         {
-          id: generateUUID(),
+          id: window.SJIFUtils.generateId(),
           number: '0003210-12.2026.8.13.0004',
           area: 'Minerário',
           court: 'TRF-1',
@@ -522,7 +512,7 @@
         }
 
         await this.addAnalysis({
-          id: generateUUID(),
+          id: window.SJIFUtils.generateId(),
           documentId: demoDocuments[k].id,
           documentName: demoDocuments[k].name,
           type: analysisLabels[k] || 'Análise Geral',

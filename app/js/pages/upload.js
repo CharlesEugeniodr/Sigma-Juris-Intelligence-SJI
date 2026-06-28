@@ -245,15 +245,45 @@ window.UploadPage = {
       state.fileSize = file.size;
       state.fileType = file.type || file.name.split('.').pop();
 
-      var reader = new FileReader();
-      reader.onload = function(e) {
-        state.text = e.target.result;
-        showFileResult();
-      };
-      reader.onerror = function() {
-        window.SJIFUtils.showToast('Erro ao ler o arquivo.', 'error');
-      };
-      reader.readAsText(file, 'UTF-8');
+      var ext = (file.name.split('.').pop() || '').toLowerCase();
+
+      if (ext === 'pdf' || ext === 'docx') {
+        // Binary files: upload to backend for server-side text extraction
+        var formData = new FormData();
+        formData.append('file', file);
+
+        var token = window.app && window.app.auth && window.app.auth.token;
+        var headers = {};
+        if (token) headers['Authorization'] = 'Bearer ' + token;
+
+        fetch('/api/documents/upload', {
+          method: 'POST',
+          headers: headers,
+          body: formData
+        })
+        .then(function(resp) {
+          if (!resp.ok) throw new Error('Upload falhou: ' + resp.status);
+          return resp.json();
+        })
+        .then(function(data) {
+          state.text = data.content || '';
+          showFileResult();
+        })
+        .catch(function(err) {
+          window.SJIFUtils.showToast('Erro ao processar arquivo: ' + (err.message || err), 'error');
+        });
+      } else {
+        // Plain text files (.txt, .md): read directly in the browser
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          state.text = e.target.result;
+          showFileResult();
+        };
+        reader.onerror = function() {
+          window.SJIFUtils.showToast('Erro ao ler o arquivo.', 'error');
+        };
+        reader.readAsText(file, 'UTF-8');
+      }
     }
 
     function showFileResult() {

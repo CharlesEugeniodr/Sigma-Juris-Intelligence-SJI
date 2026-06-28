@@ -127,10 +127,7 @@ window.DocumentsPage = {
 
     // --- Render helpers ---
     function getScoreClass(score) {
-      if (score > 80) return 'score-high';
-      if (score > 60) return 'score-mid';
-      if (score > 40) return 'score-low-mid';
-      return 'score-low';
+      return SJIFUtils.getScoreClass(score);
     }
 
     function getCategoryClass(category) {

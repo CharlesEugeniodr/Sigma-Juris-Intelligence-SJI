@@ -6,7 +6,7 @@ import uuid
 from datetime import datetime, timezone
 from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, status
 from pydantic import BaseModel
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -16,6 +16,7 @@ from server.models.document import Document
 from server.models.user import User
 from server.services.auth_service import get_current_user
 from server.analysis.analyzer import DocumentAnalyzer
+from server.analysis.extractor import TextExtractor
 
 router = APIRouter(prefix="/api/documents", tags=["Documentos"])
 
@@ -196,6 +197,30 @@ async def create_document(
         type_code=body.type_code,
         type_name=body.type_name,
         category=body.category,
+    )
+    db.add(doc)
+    await db.flush()
+    await db.refresh(doc)
+
+    return DocumentResponse(**doc.to_dict())
+
+
+@router.post("/upload", response_model=DocumentResponse, status_code=status.HTTP_201_CREATED)
+async def upload_file(
+    file: UploadFile,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Upload a binary file (PDF, DOCX, TXT, MD) and extract text server-side."""
+    content = await file.read()
+    extractor = TextExtractor()
+    text = extractor.extract_from_bytes(content, file.filename or 'unknown.txt')
+
+    doc = Document(
+        id=str(uuid.uuid4()),
+        user_id=current_user.id,
+        name=file.filename or 'uploaded_file',
+        content=text,
     )
     db.add(doc)
     await db.flush()

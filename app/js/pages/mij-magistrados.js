@@ -298,7 +298,10 @@ window.MIJMagistradosPage = {
         const labels = Object.keys(metricas.materias).slice(0, 8);
         const data = labels.map(l => metricas.materias[l]?.procedencia || 0);
         
-        new Chart(document.getElementById('mij-radar-materias'), {
+        var radarCanvas = document.getElementById('mij-radar-materias');
+        var existingChart = Chart.getChart(radarCanvas);
+        if (existingChart) existingChart.destroy();
+        new Chart(radarCanvas, {
           type: 'radar',
           data: {
             labels: labels,

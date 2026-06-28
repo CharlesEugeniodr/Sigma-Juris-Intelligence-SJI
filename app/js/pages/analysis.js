@@ -543,9 +543,10 @@ window.AnalysisPage = {
 
     // --- Helper functions ---
     function getScoreColor(s) {
-      if (s > 80) return 'var(--success)';
-      if (s > 60) return 'var(--gold)';
-      if (s > 40) return '#E67E22';
+      var cls = SJIFUtils.getScoreClass(s);
+      if (cls === 'excellent') return 'var(--success)';
+      if (cls === 'good') return 'var(--gold)';
+      if (cls === 'average') return '#E67E22';
       return 'var(--danger)';
     }
 

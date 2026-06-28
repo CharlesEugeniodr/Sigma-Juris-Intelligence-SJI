@@ -2,12 +2,14 @@
 Modelo de Documento.
 """
 from datetime import datetime, timezone
-from sqlalchemy import Column, Integer, String, Text, Float, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, Float, DateTime, ForeignKey, CheckConstraint
+from sqlalchemy.orm import relationship
 
 from server.database import Base
+from server.models.mixins import ToDictMixin
 
 
-class Document(Base):
+class Document(ToDictMixin, Base):
     """Tabela de documentos jurídicos."""
 
     __tablename__ = "documents"
@@ -27,22 +29,12 @@ class Document(Base):
     )
     analyzed_at = Column(DateTime, nullable=True)
 
+    __table_args__ = (
+        CheckConstraint("status IN ('pending', 'analyzed', 'error')", name="ck_document_status"),
+    )
+
+    # ORM relationships
+    user = relationship('User', back_populates='documents')
+
     def __repr__(self) -> str:
         return f"<Document(id='{self.id}', name='{self.name}')>"
-
-    def to_dict(self) -> dict:
-        """Converte o modelo para dicionário."""
-        return {
-            "id": self.id,
-            "user_id": self.user_id,
-            "name": self.name,
-            "content": self.content,
-            "type_code": self.type_code,
-            "type_name": self.type_name,
-            "category": self.category,
-            "score": self.score,
-            "status": self.status,
-            "analysis_json": self.analysis_json,
-            "uploaded_at": self.uploaded_at.isoformat() if self.uploaded_at else None,
-            "analyzed_at": self.analyzed_at.isoformat() if self.analyzed_at else None,
-        }

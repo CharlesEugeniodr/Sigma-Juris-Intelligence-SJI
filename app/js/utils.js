@@ -94,6 +94,13 @@
       });
     },
 
+    getScoreClass: function(score) {
+      if (score >= 80) return 'score-high';
+      if (score >= 60) return 'score-mid';
+      if (score >= 40) return 'score-low-mid';
+      return 'score-low';
+    },
+
     generateProcessNumber() {
       const seq = String(Math.floor(Math.random() * 9999999)).padStart(7, '0');
       const dd = String(Math.floor(Math.random() * 99)).padStart(2, '0');

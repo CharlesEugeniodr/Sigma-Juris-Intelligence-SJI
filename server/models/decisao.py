@@ -3,11 +3,13 @@ Modelo de Decisão.
 """
 from datetime import datetime, timezone
 from sqlalchemy import Column, Integer, String, Text, Date, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
 
 from server.database import Base
+from server.models.mixins import ToDictMixin
 
 
-class Decisao(Base):
+class Decisao(ToDictMixin, Base):
     """Tabela de decisões judiciais vinculadas a magistrados."""
 
     __tablename__ = "decisoes"
@@ -29,24 +31,8 @@ class Decisao(Base):
         DateTime, default=lambda: datetime.now(timezone.utc), nullable=False
     )
 
+    # ORM relationships
+    magistrado = relationship('Magistrado', back_populates='decisoes')
+
     def __repr__(self) -> str:
         return f"<Decisao(id={self.id}, processo='{self.processo_numero}', resultado='{self.resultado}')>"
-
-    def to_dict(self) -> dict:
-        """Converte o modelo para dicionário."""
-        return {
-            "id": self.id,
-            "magistrado_id": self.magistrado_id,
-            "processo_numero": self.processo_numero,
-            "tipo": self.tipo,
-            "resultado": self.resultado,
-            "materia": self.materia,
-            "area": self.area,
-            "tribunal": self.tribunal,
-            "ementa": self.ementa,
-            "data_decisao": self.data_decisao.isoformat() if self.data_decisao else None,
-            "data_publicacao": self.data_publicacao.isoformat() if self.data_publicacao else None,
-            "fonte": self.fonte,
-            "url": self.url,
-            "criado_em": self.criado_em.isoformat() if self.criado_em else None,
-        }

@@ -3,11 +3,13 @@ Modelo de Processo.
 """
 from datetime import datetime, timezone
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
 
 from server.database import Base
+from server.models.mixins import ToDictMixin
 
 
-class Process(Base):
+class Process(ToDictMixin, Base):
     """Tabela de processos judiciais."""
 
     __tablename__ = "processes"
@@ -22,17 +24,8 @@ class Process(Base):
         DateTime, default=lambda: datetime.now(timezone.utc), nullable=False
     )
 
+    # ORM relationships
+    user = relationship('User', back_populates='processes')
+
     def __repr__(self) -> str:
         return f"<Process(id='{self.id}', number='{self.number}')>"
-
-    def to_dict(self) -> dict:
-        """Converte o modelo para dicionário."""
-        return {
-            "id": self.id,
-            "user_id": self.user_id,
-            "number": self.number,
-            "area": self.area,
-            "court": self.court,
-            "status": self.status,
-            "created_at": self.created_at.isoformat() if self.created_at else None,
-        }
