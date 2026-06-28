@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D4AF37;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#F2D06B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D4AF37;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="navyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1A3A4A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0F2027;stop-opacity:1" />
+    </linearGradient>
+    <filter id="goldGlow">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  
+  <!-- Sigma Symbol -->
+  <g transform="translate(15, 20)" filter="url(#goldGlow)">
+    <!-- Sigma Letter - Elegant geometric style -->
+    <path d="M 8 8 L 48 8 L 48 14 L 22 14 L 38 40 L 22 66 L 48 66 L 48 72 L 8 72 L 28 40 Z" 
+          fill="url(#goldGradient)" stroke="none"/>
+    <!-- Scales of Justice - integrated at base -->
+    <line x1="28" y1="72" x2="28" y2="82" stroke="#0F2027" stroke-width="2" stroke-linecap="round"/>
+    <line x1="16" y1="82" x2="40" y2="82" stroke="#0F2027" stroke-width="2" stroke-linecap="round"/>
+    <!-- Left pan -->
+    <path d="M 16 82 Q 16 88 22 88 Q 16 88 16 82" stroke="#0F2027" stroke-width="1.5" fill="none"/>
+    <path d="M 13 82 C 13 90 23 90 23 82" stroke="url(#goldGradient)" stroke-width="1.2" fill="none"/>
+    <!-- Right pan -->
+    <path d="M 40 82 Q 40 88 34 88 Q 40 88 40 82" stroke="#0F2027" stroke-width="1.5" fill="none"/>
+    <path d="M 33 82 C 33 90 43 90 43 82" stroke="url(#goldGradient)" stroke-width="1.2" fill="none"/>
+  </g>
+  
+  <!-- Decorative line -->
+  <line x1="80" y1="30" x2="80" y2="90" stroke="url(#goldGradient)" stroke-width="1" opacity="0.6"/>
+  
+  <!-- Main Text: SIGMA -->
+  <text x="95" y="62" font-family="'Playfair Display', 'Georgia', serif" font-size="42" font-weight="700" fill="url(#navyGradient)" letter-spacing="0.05em">SIGMA</text>
+  
+  <!-- Subtitle: JURIS INTELLIGENCE -->
+  <text x="97" y="82" font-family="'Montserrat', 'Helvetica Neue', sans-serif" font-size="12" font-weight="300" fill="#0F2027" letter-spacing="0.35em" opacity="0.85">JURIS INTELLIGENCE</text>
+  
+  <!-- Thin gold underline accent -->
+  <line x1="97" y1="87" x2="285" y2="87" stroke="url(#goldGradient)" stroke-width="0.8" opacity="0.5"/>
+</svg>

@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sigma—Juris Intelligence | Brand Identity Guidelines v1.0</title>
+    <meta name="description" content="Manual de Identidade Visual do Sigma—Juris Intelligence Framework — Elegância, Técnica Jurídica e Inovação">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Montserrat:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================= */
+        /*  SIGMA—JURIS INTELLIGENCE BRAND GUIDELINES    */
+        /*  Design System v1.0                           */
+        /* ============================================= */
+
+        :root {
+            /* Brand Colors */
+            --navy-blue: #0F2027;
+            --navy-mid: #1A3A4A;
+            --navy-light: #203A43;
+            --gold-imperial: #D4AF37;
+            --gold-light: #F2D06B;
+            --gold-dark: #B8952E;
+            --platina: #E0E4E5;
+            --platina-light: #F0F2F3;
+            --white: #FFFFFF;
+            --text-dark: #1A1A2E;
+            --text-muted: #6B7280;
+
+            /* Gradients */
+            --gradient-navy: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%);
+            --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #F2D06B 50%, #D4AF37 100%);
+            --gradient-dark: linear-gradient(180deg, #0F2027 0%, #1A1A2E 100%);
+
+            /* Typography */
+            --font-display: 'Playfair Display', 'Georgia', serif;
+            --font-body: 'Montserrat', 'Helvetica Neue', sans-serif;
+
+            /* Spacing */
+            --section-gap: 120px;
+            --container-max: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--white);
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ---- CONTAINER ---- */
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* ---- HERO SECTION ---- */
+        .hero {
+            min-height: 100vh;
+            background: var(--gradient-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 60% 80%, rgba(44, 83, 100, 0.15) 0%, transparent 50%);
+        }
+
+        /* Animated grid background */
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-logo {
+            margin-bottom: 24px;
+        }
+
+        .hero-logo .sigma-icon {
+            width: 80px;
+            height: 100px;
+            margin: 0 auto 20px;
+        }
+
+        .hero-logo .sigma-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 700;
+            color: var(--platina);
+            letter-spacing: 0.04em;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 40px rgba(212, 175, 55, 0.15);
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-body);
+            font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+            font-weight: 300;
+            color: var(--gold-imperial);
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+
+        .hero-tagline {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 200;
+            color: var(--platina);
+            opacity: 0.6;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .hero-version {
+            display: inline-block;
+            margin-top: 48px;
+            padding: 8px 28px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 40px;
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--gold-imperial);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(12px); }
+        }
+
+        .scroll-indicator svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--gold-imperial);
+            opacity: 0.5;
+        }
+
+        /* ---- SECTION STYLING ---- */
+        .section {
+            padding: var(--section-gap) 0;
+        }
+
+        .section-header {
+            margin-bottom: 80px;
+        }
+
+        .section-number {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--gold-imperial);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            color: var(--navy-blue);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .section-divider {
+            width: 60px;
+            height: 2px;
+            background: var(--gradient-gold);
+            margin-top: 24px;
+        }
+
+        .section-desc {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-top: 20px;
+            line-height: 1.8;
+        }
+
+        /* ---- DARK SECTION ---- */
+        .section-dark {
+            background: var(--gradient-dark);
+            color: var(--platina);
+        }
+
+        .section-dark .section-title {
+            color: var(--platina);
+        }
+
+        .section-dark .section-desc {
+            color: rgba(224, 228, 229, 0.7);
+        }
+
+        /* ---- COLOR PALETTE ---- */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+
+        .color-card {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+        }
+
+        .color-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .color-swatch {
+            height: 200px;
+            display: flex;
+            align-items: flex-end;
+            padding: 24px;
+            position: relative;
+        }
+
+        .color-swatch::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(transparent 40%, rgba(0,0,0,0.15));
+        }
+
+        .swatch-hex {
+            font-family: var(--font-body);
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: white;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .color-info {
+            padding: 24px;
+            background: var(--white);
+        }
+
+        .color-name {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--navy-blue);
+            margin-bottom: 8px;
+        }
+
+        .color-meta {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .color-meta code {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.8rem;
+            background: var(--platina-light);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--navy-blue);
+        }
+
+        /* ---- TYPOGRAPHY SECTION ---- */
+        .typo-showcase {
+            display: grid;
+            gap: 64px;
+        }
+
+        .typo-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+            padding: 48px;
+            background: var(--platina-light);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .typo-preview {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.1;
+        }
+
+        .typo-preview.display-font {
+            font-family: var(--font-display);
+            font-weight: 700;
+            color: var(--navy-blue);
+        }
+
+        .typo-preview.body-font {
+            font-family: var(--font-body);
+            font-weight: 300;
+            color: var(--navy-blue);
+            letter-spacing: 0.12em;
+        }
+
+        .typo-details h3 {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold-imperial);
+            margin-bottom: 16px;
+        }
+
+        .typo-details p {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .typo-spec {
+            display: inline-block;
+            padding: 4px 12px;
+            background: white;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--navy-blue);
+            margin-right: 8px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        /* ---- LOGO SECTION ---- */
+        .logo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .logo-card {
+            padding: 60px 40px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 24px;
+            min-height: 300px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-card:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-card.light {
+            background: var(--platina-light);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .logo-card.dark {
+            background: var(--gradient-dark);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .logo-card svg {
+            max-width: 340px;
+            width: 100%;
+            height: auto;
+        }
+
+        .logo-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .logo-card.light .logo-label { color: var(--text-muted); }
+        .logo-card.dark .logo-label { color: rgba(212, 175, 55, 0.6); }
+
+        /* ---- ICON SECTION ---- */
+        .icon-showcase {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .icon-card {
+            padding: 48px;
+            border-radius: 20px;
+            text-align: center;
+            background: var(--platina-light);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: all 0.4s ease;
+        }
+
+        .icon-card:hover {
+            background: var(--navy-blue);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(15, 32, 39, 0.3);
+        }
+
+        .icon-card:hover .icon-label { color: var(--gold-imperial); }
+        .icon-card:hover .icon-desc { color: rgba(224, 228, 229, 0.6); }
+        .icon-card:hover svg path,
+        .icon-card:hover svg line { stroke: var(--gold-imperial); }
+
+        .icon-card svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 24px;
+        }
+
+        .icon-label {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--navy-blue);
+            margin-bottom: 8px;
+            transition: color 0.4s ease;
+        }
+
+        .icon-desc {
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            transition: color 0.4s ease;
+        }
+
+        /* ---- APPLICATION EXAMPLES ---- */
+        .app-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .app-card {
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            align-items: flex-end;
+            padding: 40px;
+            transition: transform 0.4s ease;
+        }
+
+        .app-card:hover { transform: translateY(-4px); }
+
+        .app-card.card-businesscard {
+            background: var(--gradient-navy);
+        }
+
+        .app-card.card-document {
+            background: var(--platina-light);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .app-card.card-letterhead {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            grid-column: span 2;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 48px;
+        }
+
+        .app-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .app-title {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .app-desc {
+            font-size: 0.85rem;
+            font-weight: 300;
+            opacity: 0.7;
+        }
+
+        /* Business Card Mock */
+        .business-card-mock {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -55%) rotate(-3deg);
+            width: 320px;
+            height: 190px;
+            background: linear-gradient(135deg, #0F2027, #1A3A4A);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .bc-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bc-sigma {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--platina);
+        }
+
+        .bc-sub {
+            font-family: var(--font-body);
+            font-size: 0.5rem;
+            font-weight: 300;
+            color: var(--gold-imperial);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+
+        .bc-bottom {
+            font-family: var(--font-body);
+            font-size: 0.65rem;
+            color: rgba(224, 228, 229, 0.6);
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .bc-name {
+            font-weight: 500;
+            color: var(--platina);
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+        }
+
+        /* Document Mock */
+        .doc-mock {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 260px;
+            background: white;
+            border-radius: 8px;
+            padding: 28px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .doc-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--platina);
+        }
+
+        .doc-header-text {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--navy-blue);
+        }
+
+        .doc-line {
+            height: 6px;
+            background: var(--platina);
+            border-radius: 3px;
+            margin-bottom: 8px;
+        }
+
+        .doc-line.short { width: 60%; }
+        .doc-line.medium { width: 80%; }
+        .doc-line.gold { background: var(--gold-imperial); height: 2px; width: 40%; margin: 16px 0; }
+
+        /* Letterhead */
+        .letterhead-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding-bottom: 24px;
+            border-bottom: 2px solid var(--gold-imperial);
+            margin-bottom: 32px;
+        }
+
+        .letterhead-logo {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .letterhead-brand {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy-blue);
+        }
+
+        .letterhead-sub {
+            font-family: var(--font-body);
+            font-size: 0.6rem;
+            font-weight: 300;
+            color: var(--gold-imperial);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+
+        .letterhead-contact {
+            text-align: right;
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .letterhead-body {
+            width: 100%;
+        }
+
+        .letterhead-body .doc-line {
+            height: 8px;
+        }
+
+        /* ---- GUIDELINES SECTION ---- */
+        .guidelines-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        .guideline-card {
+            padding: 40px;
+            border-radius: 16px;
+            background: var(--platina-light);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .guideline-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--navy-blue);
+            margin-bottom: 16px;
+        }
+
+        .guideline-card p {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .do-dont {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .do, .dont {
+            flex: 1;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 400;
+        }
+
+        .do {
+            background: rgba(39, 174, 96, 0.08);
+            border: 1px solid rgba(39, 174, 96, 0.2);
+            color: #1B7A41;
+        }
+
+        .dont {
+            background: rgba(231, 76, 60, 0.08);
+            border: 1px solid rgba(231, 76, 60, 0.2);
+            color: #C0392B;
+        }
+
+        .do::before { content: '✓ '; font-weight: 700; }
+        .dont::before { content: '✗ '; font-weight: 700; }
+
+        /* ---- FOOTER ---- */
+        .footer {
+            background: var(--navy-blue);
+            padding: 64px 0;
+            text-align: center;
+        }
+
+        .footer-brand {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--platina);
+            margin-bottom: 8px;
+        }
+
+        .footer-sub {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            font-weight: 300;
+            color: var(--gold-imperial);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+
+        .footer-info {
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: rgba(224, 228, 229, 0.5);
+            line-height: 2;
+        }
+
+        .footer-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--gold-imperial);
+            margin: 24px auto;
+            opacity: 0.4;
+        }
+
+        .footer-copy {
+            font-size: 0.7rem;
+            font-weight: 300;
+            color: rgba(224, 228, 229, 0.3);
+            margin-top: 24px;
+        }
+
+        /* ---- RESPONSIVE ---- */
+        @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+            .section { padding: 80px 0; }
+            .section-header { margin-bottom: 48px; }
+            .color-grid { grid-template-columns: 1fr; }
+            .typo-item { grid-template-columns: 1fr; }
+            .logo-grid { grid-template-columns: 1fr; }
+            .icon-showcase { grid-template-columns: 1fr; }
+            .app-grid { grid-template-columns: 1fr; }
+            .app-card.card-letterhead { grid-column: span 1; }
+            .guidelines-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ---- ANIMATIONS ---- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== HERO ========== -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-logo">
+                <div class="sigma-icon">
+                    <svg viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="heroGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#D4AF37"/>
+                                <stop offset="50%" style="stop-color:#F2D06B"/>
+                                <stop offset="100%" style="stop-color:#D4AF37"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M 8 8 L 52 8 L 52 16 L 22 16 L 38 45 L 22 74 L 52 74 L 52 82 L 8 82 L 30 45 Z" fill="url(#heroGold)"/>
+                        <line x1="30" y1="82" x2="30" y2="92" stroke="#D4AF37" stroke-width="2.5"/>
+                        <line x1="16" y1="92" x2="44" y2="92" stroke="#D4AF37" stroke-width="2.5"/>
+                        <path d="M 12 92 C 12 100 24 100 24 92" stroke="#D4AF37" stroke-width="1.5" fill="none"/>
+                        <path d="M 36 92 C 36 100 48 100 48 92" stroke="#D4AF37" stroke-width="1.5" fill="none"/>
+                    </svg>
+                </div>
+            </div>
+            <h1 class="hero-title">Sigma</h1>
+            <p class="hero-subtitle">Juris Intelligence</p>
+            <p class="hero-tagline">Brand Identity Guidelines</p>
+            <span class="hero-version">versão 1.0 · 2026</span>
+        </div>
+        <div class="scroll-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- ========== CONCEPT ========== -->
+    <section class="section" id="concept">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">01 — Conceito</span>
+                <h2 class="section-title">Elegância, Técnica Jurídica<br>e Inovação</h2>
+                <div class="section-divider"></div>
+                <p class="section-desc">
+                    A identidade visual do Sigma—Juris Intelligence reflete a convergência entre a tradição do Direito e a vanguarda da tecnologia. Cada elemento foi projetado para transmitir autoridade, sofisticação e precisão analítica.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== COLORS ========== -->
+    <section class="section section-dark" id="colors">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">02 — Paleta de Cores</span>
+                <h2 class="section-title">Cores da Marca</h2>
+                <div class="section-divider"></div>
+                <p class="section-desc">
+                    Uma paleta que equilibra profundidade institucional com brilho sofisticado — projetada para transmitir confiança e excelência.
+                </p>
+            </div>
+            <div class="color-grid fade-in">
+                <div class="color-card">
+                    <div class="color-swatch" style="background: linear-gradient(135deg, #0F2027 0%, #1A3A4A 100%);">
+                        <span class="swatch-hex">#0F2027</span>
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Navy Blue Jurídico</div>
+                        <div class="color-meta">
+                            Cor primária · Backgrounds, textos e elementos dominantes<br>
+                            <code>RGB 15, 32, 39</code> <code>HSL 197°, 44%, 11%</code>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-swatch" style="background: linear-gradient(135deg, #D4AF37 0%, #F2D06B 50%, #D4AF37 100%);">
+                        <span class="swatch-hex">#D4AF37</span>
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Ouro Imperial</div>
+                        <div class="color-meta">
+                            Cor secundária · Acentos, destaques e elementos premium<br>
+                            <code>RGB 212, 175, 55</code> <code>HSL 46°, 66%, 52%</code>
+                        </div>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-swatch" style="background: linear-gradient(135deg, #E0E4E5 0%, #F0F2F3 100%);">
+                        <span class="swatch-hex" style="color: #0F2027;">#E0E4E5</span>
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Platina Tecnológica</div>
+                        <div class="color-meta">
+                            Cor de acento · Textos sobre dark, fundos neutros<br>
+                            <code>RGB 224, 228, 229</code> <code>HSL 192°, 6%, 89%</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TYPOGRAPHY ========== -->
+    <section class="section" id="typography">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">03 — Tipografia</span>
+                <h2 class="section-title">Sistema Tipográfico</h2>
+                <div class="section-divider"></div>
+                <p class="section-desc">
+                    Duas famílias tipográficas complementares: a Playfair Display para peso e autoridade; a Montserrat para clareza e modernidade.
+                </p>
+            </div>
+            <div class="typo-showcase fade-in">
+                <div class="typo-item">
+                    <div class="typo-preview display-font">Sigma</div>
+                    <div class="typo-details">
+                        <h3>Fonte Primária — Display</h3>
+                        <p>Playfair Display é utilizada para o logotipo principal, títulos e elementos que demandam presença e autoridade visual.</p>
+                        <span class="typo-spec">Playfair Display</span>
+                        <span class="typo-spec">Serif</span>
+                        <span class="typo-spec">Weight: 700</span>
+                        <span class="typo-spec">Estilo: Clássico</span>
+                    </div>
+                </div>
+                <div class="typo-item">
+                    <div class="typo-preview body-font">Juris</div>
+                    <div class="typo-details">
+                        <h3>Fonte Secundária — Interface</h3>
+                        <p>Montserrat é empregada para subtítulos, corpo de texto e interface de usuário, garantindo legibilidade e leveza.</p>
+                        <span class="typo-spec">Montserrat</span>
+                        <span class="typo-spec">Sans-serif</span>
+                        <span class="typo-spec">Weight: 300</span>
+                        <span class="typo-spec">Letter-spacing: 0.2em</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== LOGO ========== -->
+    <section class="section section-dark" id="logo">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">04 — Logotipo</span>
+                <h2 class="section-title">Variações do Logo</h2>
+                <div class="section-divider"></div>
+                <p class="section-desc">
+                    O logotipo combina o símbolo Sigma estilizado com a balança da justiça, representando a fusão entre análise quantitativa e Direito.
+                </p>
+            </div>
+            <div class="logo-grid fade-in">
+                <div class="logo-card light">
+                    <svg viewBox="0 0 400 120">
+                        <defs>
+                            <linearGradient id="gL1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#D4AF37"/><stop offset="50%" style="stop-color:#F2D06B"/><stop offset="100%" style="stop-color:#D4AF37"/>
+                            </linearGradient>
+                            <linearGradient id="nL1" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#1A3A4A"/><stop offset="100%" style="stop-color:#0F2027"/>
+                            </linearGradient>
+                        </defs>
+                        <g transform="translate(15, 20)">
+                            <path d="M 8 8 L 48 8 L 48 14 L 22 14 L 38 40 L 22 66 L 48 66 L 48 72 L 8 72 L 28 40 Z" fill="url(#gL1)"/>
+                            <line x1="28" y1="72" x2="28" y2="82" stroke="#0F2027" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="16" y1="82" x2="40" y2="82" stroke="#0F2027" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M 13 82 C 13 90 23 90 23 82" stroke="url(#gL1)" stroke-width="1.2" fill="none"/>
+                            <path d="M 33 82 C 33 90 43 90 43 82" stroke="url(#gL1)" stroke-width="1.2" fill="none"/>
+                        </g>
+                        <line x1="80" y1="30" x2="80" y2="90" stroke="url(#gL1)" stroke-width="1" opacity="0.6"/>
+                        <text x="95" y="62" font-family="'Playfair Display', serif" font-size="42" font-weight="700" fill="url(#nL1)" letter-spacing="0.05em">SIGMA</text>
+                        <text x="97" y="82" font-family="'Montserrat', sans-serif" font-size="12" font-weight="300" fill="#0F2027" letter-spacing="0.35em" opacity="0.85">JURIS INTELLIGENCE</text>
+                        <line x1="97" y1="87" x2="285" y2="87" stroke="url(#gL1)" stroke-width="0.8" opacity="0.5"/>
+                    </svg>
+                    <span class="logo-label">Versão Light</span>
+                </div>
+                <div class="logo-card dark">
+                    <svg viewBox="0 0 400 120">
+                        <defs>
+                            <linearGradient id="gD1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#D4AF37"/><stop offset="50%" style="stop-color:#F2D06B"/><stop offset="100%" style="stop-color:#D4AF37"/>
+                            </linearGradient>
+                        </defs>
+                        <g transform="translate(15, 20)">
+                            <path d="M 8 8 L 48 8 L 48 14 L 22 14 L 38 40 L 22 66 L 48 66 L 48 72 L 8 72 L 28 40 Z" fill="url(#gD1)"/>
+                            <line x1="28" y1="72" x2="28" y2="82" stroke="#D4AF37" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="16" y1="82" x2="40" y2="82" stroke="#D4AF37" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M 13 82 C 13 90 23 90 23 82" stroke="url(#gD1)" stroke-width="1.2" fill="none"/>
+                            <path d="M 33 82 C 33 90 43 90 43 82" stroke="url(#gD1)" stroke-width="1.2" fill="none"/>
+                        </g>
+                        <line x1="80" y1="30" x2="80" y2="90" stroke="url(#gD1)" stroke-width="1" opacity="0.4"/>
+                        <text x="95" y="62" font-family="'Playfair Display', serif" font-size="42" font-weight="700" fill="#E0E4E5" letter-spacing="0.05em">SIGMA</text>
+                        <text x="97" y="82" font-family="'Montserrat', sans-serif" font-size="12" font-weight="300" fill="#D4AF37" letter-spacing="0.35em">JURIS INTELLIGENCE</text>
+                        <line x1="97" y1="87" x2="285" y2="87" stroke="url(#gD1)" stroke-width="0.8" opacity="0.4"/>
+                    </svg>
+                    <span class="logo-label">Versão Dark</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ICONS ========== -->
+    <section class="section" id="icons">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">05 — Elementos Vetoriais</span>
+                <h2 class="section-title">Ícones da Marca</h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="icon-showcase fade-in">
+                <div class="icon-card">
+                    <svg viewBox="0 0 80 80" fill="none">
+                        <path d="M 15 10 L 65 10 L 65 18 L 30 18 L 48 40 L 30 62 L 65 62 L 65 70 L 15 70 L 38 40 Z" stroke="#0F2027" stroke-width="2.5" fill="none"/>
+                    </svg>
+                    <div class="icon-label">Sigma Outline</div>
+                    <div class="icon-desc">Versão contorno para uso compacto</div>
+                </div>
+                <div class="icon-card">
+                    <svg viewBox="0 0 80 80" fill="none">
+                        <path d="M 15 10 L 65 10 L 65 18 L 30 18 L 48 40 L 30 62 L 65 62 L 65 70 L 15 70 L 38 40 Z" fill="#D4AF37"/>
+                    </svg>
+                    <div class="icon-label">Sigma Solid</div>
+                    <div class="icon-desc">Versão sólida para ícone de app</div>
+                </div>
+                <div class="icon-card">
+                    <svg viewBox="0 0 80 100" fill="none">
+                        <path d="M 15 10 L 65 10 L 65 18 L 30 18 L 48 40 L 30 62 L 65 62 L 65 70 L 15 70 L 38 40 Z" fill="#D4AF37"/>
+                        <line x1="40" y1="70" x2="40" y2="82" stroke="#0F2027" stroke-width="2.5" stroke-linecap="round"/>
+                        <line x1="24" y1="82" x2="56" y2="82" stroke="#0F2027" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M 20 82 C 20 92 34 92 34 82" stroke="#D4AF37" stroke-width="1.5" fill="none"/>
+                        <path d="M 46 82 C 46 92 60 92 60 82" stroke="#D4AF37" stroke-width="1.5" fill="none"/>
+                    </svg>
+                    <div class="icon-label">Sigma + Balança</div>
+                    <div class="icon-desc">Marca completa com justiça integrada</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== APPLICATIONS ========== -->
+    <section class="section section-dark" id="applications">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">06 — Aplicações</span>
+                <h2 class="section-title">Aplicações da Marca</h2>
+                <div class="section-divider"></div>
+                <p class="section-desc">
+                    Exemplos de como a identidade visual se aplica em materiais institucionais e profissionais.
+                </p>
+            </div>
+            <div class="app-grid fade-in">
+                <div class="app-card card-businesscard">
+                    <div class="business-card-mock">
+                        <div>
+                            <div class="bc-top">
+                                <span class="bc-sigma">Sigma</span>
+                            </div>
+                            <div class="bc-sub">Juris Intelligence</div>
+                        </div>
+                        <div class="bc-bottom">
+                            <div class="bc-name">Charles de Paula Eugênio</div>
+                            Diretor Executivo<br>
+                            Sigma Sihf Soluções Analíticas Ltda
+                        </div>
+                    </div>
+                    <div class="app-content" style="position: relative; z-index: 3; margin-top: auto;">
+                        <div class="app-title" style="color: var(--platina);">Cartão de Visita</div>
+                        <div class="app-desc" style="color: rgba(224,228,229,0.5);">Dark premium com tipografia dourada</div>
+                    </div>
+                </div>
+                <div class="app-card card-document">
+                    <div class="doc-mock">
+                        <div class="doc-header">
+                            <svg viewBox="0 0 24 30" width="18" fill="none">
+                                <path d="M 4 3 L 20 3 L 20 6 L 9 6 L 15 14 L 9 22 L 20 22 L 20 25 L 4 25 L 12 14 Z" fill="#D4AF37"/>
+                            </svg>
+                            <span class="doc-header-text">Sigma—Juris</span>
+                        </div>
+                        <div class="doc-line gold"></div>
+                        <div class="doc-line"></div>
+                        <div class="doc-line medium"></div>
+                        <div class="doc-line short"></div>
+                        <div class="doc-line"></div>
+                        <div class="doc-line medium"></div>
+                        <div class="doc-line short"></div>
+                    </div>
+                    <div class="app-content" style="margin-top: auto;">
+                        <div class="app-title" style="color: var(--navy-blue);">Documento Técnico</div>
+                        <div class="app-desc" style="color: var(--text-muted);">Header com logo e filete dourado</div>
+                    </div>
+                </div>
+                <div class="app-card card-letterhead">
+                    <div class="letterhead-top">
+                        <div class="letterhead-logo">
+                            <svg viewBox="0 0 30 38" width="28" fill="none">
+                                <path d="M 4 3 L 26 3 L 26 7 L 11 7 L 19 19 L 11 31 L 26 31 L 26 35 L 4 35 L 15 19 Z" fill="#D4AF37"/>
+                            </svg>
+                            <div>
+                                <div class="letterhead-brand">Sigma</div>
+                                <div class="letterhead-sub">Juris Intelligence</div>
+                            </div>
+                        </div>
+                        <div class="letterhead-contact">
+                            Sigma Sihf Soluções Analíticas Ltda<br>
+                            CNPJ: 01.851.824/0001-38
+                        </div>
+                    </div>
+                    <div class="letterhead-body">
+                        <div class="doc-line"></div>
+                        <div class="doc-line medium"></div>
+                        <div class="doc-line short"></div>
+                        <div class="doc-line"></div>
+                        <div class="doc-line medium"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== GUIDELINES ========== -->
+    <section class="section" id="guidelines">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-number">07 — Diretrizes de Uso</span>
+                <h2 class="section-title">Regras de Aplicação</h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="guidelines-grid fade-in">
+                <div class="guideline-card">
+                    <h3>Área de Proteção</h3>
+                    <p>Mantenha uma área mínima de respiro ao redor do logotipo equivalente à altura da letra "S" do Sigma. Nenhum elemento gráfico ou textual deve invadir essa zona.</p>
+                </div>
+                <div class="guideline-card">
+                    <h3>Tamanho Mínimo</h3>
+                    <p>O logotipo completo não deve ser reproduzido com largura inferior a 120px em tela ou 30mm em impressão. Para espaços menores, utilize apenas o ícone Sigma.</p>
+                </div>
+                <div class="guideline-card">
+                    <h3>Cores de Fundo</h3>
+                    <div class="do-dont">
+                        <div class="do">Fundos claros (#FFF, #F0F2F3) com logo principal</div>
+                        <div class="dont">Fundos coloridos que conflitem com o Ouro Imperial</div>
+                    </div>
+                    <div class="do-dont" style="margin-top: 8px;">
+                        <div class="do">Fundos escuros (#0F2027) com versão dark do logo</div>
+                        <div class="dont">Logos distorcidos, rotacionados ou com efeitos</div>
+                    </div>
+                </div>
+                <div class="guideline-card">
+                    <h3>Tipografia em Documentos</h3>
+                    <p>Em documentos do SJIF, utilize Playfair Display para títulos (h1, h2) e Montserrat para corpo de texto, subtítulos e interface. O letter-spacing de 0.2em deve ser mantido nos subtítulos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-brand">Sigma</div>
+            <div class="footer-sub">Juris Intelligence</div>
+            <div class="footer-divider"></div>
+            <div class="footer-info">
+                Propriedade de Charles de Paula Eugênio<br>
+                Sigma Sihf Soluções Analíticas Ltda<br>
+                CNPJ: 01.851.824/0001-38
+            </div>
+            <div class="footer-copy">
+                © 2026 Sigma—Juris Intelligence. Todos os direitos reservados.<br>
+                Brand Identity Guidelines v1.0
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== SCROLL ANIMATION ========== -->
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
