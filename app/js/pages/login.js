@@ -323,7 +323,7 @@ window.LoginPage = {
 
     const wrapper = document.createElement('div');
     wrapper.className = 'login-wrapper';
-    wrapper.innerHTML = \`
+    wrapper.innerHTML = `
       <div class="login-grid-bg"></div>
       <div class="login-glow"></div>
       <div class="login-card-new">
@@ -352,7 +352,7 @@ window.LoginPage = {
         </form>
         <div class="login-footer-new">&copy; 2026 Sigma Sihf Solucoes Analiticas Ltda</div>
       </div>
-    \`;
+    `;
     container.appendChild(wrapper);
 
     // Interactions
