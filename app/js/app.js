@@ -115,6 +115,16 @@ class SJIFApp {
         case 'settings':
           if (window.SettingsPage) window.SettingsPage.render();
           break;
+        // MIJ Routes
+        case 'mij':
+          if (param === 'magistrados') {
+            if (window.MIJMagistradosPage) window.MIJMagistradosPage.render();
+          } else if (param === 'simulador') {
+            if (window.MIJSimuladorPage) window.MIJSimuladorPage.render();
+          } else {
+            if (window.MIJDashboardPage) window.MIJDashboardPage.render();
+          }
+          break;
         default:
           if (window.DashboardPage) window.DashboardPage.render();
       }
@@ -194,7 +204,8 @@ class SJIFApp {
       analysis: 'Resultado da Análise',
       taxonomy: 'Taxonomia de Peças',
       processes: 'Gestão de Processos',
-      settings: 'Configurações'
+      settings: 'Configurações',
+      mij: 'Inteligência Judicial'
     };
 
     const icons = {
