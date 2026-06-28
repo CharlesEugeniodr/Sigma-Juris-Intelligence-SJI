@@ -31,7 +31,7 @@ class SJIFApp {
     document.querySelectorAll('.sidebar-nav-item').forEach(item => {
       item.addEventListener('click', (e) => {
         e.preventDefault();
-        const path = item.dataset.path || item.getAttribute('data-path');
+        const path = item.dataset.page || item.dataset.path || item.getAttribute('data-page');
         if (path) {
           window.location.hash = '#/' + path;
         }
@@ -291,7 +291,7 @@ class SJIFApp {
 
   updateSidebar(activePath) {
     document.querySelectorAll('.sidebar-nav-item').forEach(item => {
-      const itemPath = item.dataset.path || item.getAttribute('data-path');
+      const itemPath = item.dataset.page || item.dataset.path || item.getAttribute('data-page');
       if (itemPath === activePath) {
         item.classList.add('active');
       } else {
