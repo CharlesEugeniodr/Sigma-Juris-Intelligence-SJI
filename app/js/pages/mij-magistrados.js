@@ -161,8 +161,12 @@ window.MIJMagistradosPage = {
       const metricas = perfil.metricas_json ? JSON.parse(perfil.metricas_json) : {};
 
       wrapper.innerHTML = `
-        <div style="margin-bottom:24px">
+        <div style="margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;">
           <button class="btn btn-outline btn-sm" onclick="MIJMagistradosPage.render()">← Voltar à busca</button>
+          <div style="display:flex; gap:8px;">
+            <button id="btn-export-pdf" class="btn btn-outline btn-sm">PDF</button>
+            <button id="btn-export-docx" class="btn btn-outline btn-sm">DOCX</button>
+          </div>
         </div>
 
         <!-- Header -->
@@ -322,6 +326,26 @@ window.MIJMagistradosPage = {
             plugins: { legend: { display: false } }
           }
         });
+      }
+
+      // --- Export Buttons Event Listeners ---
+      const btnPdf = container.querySelector('#btn-export-pdf');
+      if (btnPdf) {
+          btnPdf.addEventListener('click', () => {
+              if (typeof html2pdf !== 'undefined') {
+                  const element = container.querySelector('.animate-in') || container;
+                  html2pdf().from(element).save('relatorio-sjif.pdf');
+              } else {
+                  alert("Biblioteca PDF não carregada.");
+              }
+          });
+      }
+
+      const btnDocx = container.querySelector('#btn-export-docx');
+      if (btnDocx) {
+          btnDocx.addEventListener('click', () => {
+              alert("A exportação para DOCX nativo está em desenvolvimento. Por favor, use a exportação PDF.");
+          });
       }
 
     } catch (e) {

@@ -15,25 +15,28 @@ from server.api.auth import router as auth_router, seed_default_users
 from server.api.documents import router as documents_router
 from server.api.processes import router as processes_router
 from server.api.mij import router as mij_router
-
+from server.mij.scheduler import scheduler
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Gerencia o ciclo de vida da aplicação."""
     # Startup
     await init_db()
+    scheduler.start()
 
     async with async_session() as db:
         await seed_default_users(db)
 
     print("[OK] Banco de dados inicializado")
     print("[OK] Usuarios padrao verificados")
+    print("[OK] Scheduler iniciado")
     print("[OK] Sigma-Juris Intelligence API pronta!")
 
     yield
 
     # Shutdown
     print("[STOP] Encerrando Sigma-Juris Intelligence API...")
+    scheduler.shutdown()
 
 
 app = FastAPI(

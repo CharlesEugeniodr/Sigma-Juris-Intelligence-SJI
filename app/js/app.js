@@ -375,6 +375,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       });
     }
+
+    // --- LGPD Banner Logic ---
+    const lgpdBanner = document.getElementById('lgpd-banner');
+    const lgpdBtn = document.getElementById('btn-accept-lgpd');
+    if (lgpdBanner && lgpdBtn) {
+        if (!localStorage.getItem('lgpd_accepted')) {
+            lgpdBanner.style.display = 'block';
+        }
+        lgpdBtn.addEventListener('click', () => {
+            localStorage.setItem('lgpd_accepted', 'true');
+            lgpdBanner.style.display = 'none';
+        });
+    }
   } catch (err) {
     console.error('❌ SJIF App initialization error:', err);
   }

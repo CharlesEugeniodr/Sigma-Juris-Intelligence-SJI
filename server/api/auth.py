@@ -146,6 +146,16 @@ async def logout(token: str = Depends(oauth2_scheme)):
     return {"message": "Logout realizado com sucesso"}
 
 
+@router.delete("/me", summary="Direito ao esquecimento (LGPD)")
+async def delete_my_data(
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    # This deletes the user. Due to CASCADE in the DB schema, their documents/processes should be deleted.
+    await db.delete(current_user)
+    return {"message": "Sua conta e todos os seus dados foram apagados permanentemente."}
+
+
 # ─── Seed ───────────────────────────────────────────────────────────
 async def seed_default_users(db: AsyncSession) -> None:
     """Cria usuários padrão caso não existam."""

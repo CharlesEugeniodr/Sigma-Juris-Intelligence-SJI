@@ -292,6 +292,10 @@ window.AnalysisPage = {
           '<span class="badge">' + category + '</span>' +
         '</div>' +
         '<div class="analysis-header-date">Criado em ' + dateStr + '</div>' +
+      '</div>' +
+      '<div class="analysis-actions" style="display:flex;gap:8px">' +
+        '<button id="btn-export-pdf" class="btn btn-outline btn-sm">PDF</button>' +
+        '<button id="btn-export-docx" class="btn btn-outline btn-sm">DOCX</button>' +
       '</div>';
     container.appendChild(headerDiv);
 
@@ -537,6 +541,26 @@ window.AnalysisPage = {
     bottomDiv.className = 'analysis-bottom animate-in';
     bottomDiv.innerHTML = '<a href="#/upload" class="btn btn-primary">📤 Nova Análise</a>';
     container.appendChild(bottomDiv);
+
+    // --- Export Buttons Event Listeners ---
+    const btnPdf = container.querySelector('#btn-export-pdf');
+    if (btnPdf) {
+        btnPdf.addEventListener('click', () => {
+            if (typeof html2pdf !== 'undefined') {
+                const element = container.querySelector('.analysis-layout') || container;
+                html2pdf().from(element).save('relatorio-sjif.pdf');
+            } else {
+                alert("Biblioteca PDF não carregada.");
+            }
+        });
+    }
+
+    const btnDocx = container.querySelector('#btn-export-docx');
+    if (btnDocx) {
+        btnDocx.addEventListener('click', () => {
+            alert("A exportação para DOCX nativo está em desenvolvimento. Por favor, use a exportação PDF.");
+        });
+    }
 
     // --- Animate in ---
     window.SJIFUtils.staggerIn(container.querySelectorAll('.animate-in'), 60);

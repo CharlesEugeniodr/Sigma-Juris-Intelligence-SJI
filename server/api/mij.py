@@ -625,6 +625,42 @@ def _generate_teses(
     return matched_teses[:5]
 
 
+class ScraperRunRequest(BaseModel):
+    scraper_name: str
+    termos: str = "improbidade"
+
+
+@router.post("/scrapers/run", summary="Dispara os scrapers manualmente")
+async def run_scrapers_manual(req: ScraperRunRequest, current_user=Depends(get_current_user)):
+    """Dispara os scrapers manualmente."""
+    scraper_name = req.scraper_name.lower()
+    
+    if scraper_name == "datajud":
+        from server.mij.scrapers.datajud import DataJudScraper
+        scraper = DataJudScraper(tribunal="tjmg")
+        resultados = await scraper.fetch_decisoes(materia=req.termos, size=5)
+    elif scraper_name == "tjmg":
+        from server.mij.scrapers.tjmg import TJMGScraper
+        scraper = TJMGScraper()
+        resultados = await scraper.buscar_jurisprudencia(termo=req.termos, resultados_por_pagina=5)
+    elif scraper_name == "stj":
+        from server.mij.scrapers.stj import STJScraper
+        scraper = STJScraper()
+        resultados = await scraper.buscar_jurisprudencia(termo=req.termos)
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Scraper '{scraper_name}' não reconhecido. Use: datajud, tjmg, stj",
+        )
+        
+    return {
+        "scraper": scraper_name,
+        "termos": req.termos,
+        "quantidade_resultados": len(resultados),
+        "resultados": resultados
+    }
+
+
 # ─── Seed Data ──────────────────────────────────────────────────────
 @router.post("/seed", summary="Carregar dados de demonstracao MIJ")
 async def seed_mij(
