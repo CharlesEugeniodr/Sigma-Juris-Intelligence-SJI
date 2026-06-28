@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sigma—Juris Intelligence Framework | Portal v1.0</title>
+    <meta name="description" content="Portal de navegação do Sigma—Juris Intelligence Framework — Sistema Integrado de Inteligência Jurídica">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Montserrat:wght@100;200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0F2027;
+            --navy-mid: #1A3A4A;
+            --navy-light: #203A43;
+            --navy-lighter: #2C5364;
+            --gold: #D4AF37;
+            --gold-light: #F2D06B;
+            --gold-dark: #B8952E;
+            --platina: #E0E4E5;
+            --platina-light: #F0F2F3;
+            --white: #FFFFFF;
+            --bg: #0A0E14;
+            --bg-card: #111820;
+            --bg-card-hover: #161E28;
+            --text: #C5CDD5;
+            --text-muted: #6B7A8D;
+            --border: rgba(212, 175, 55, 0.08);
+            --border-hover: rgba(212, 175, 55, 0.2);
+            --glow: rgba(212, 175, 55, 0.06);
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Montserrat', 'Segoe UI', sans-serif;
+            --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* ---- BACKGROUND EFFECTS ---- */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 15% 10%, rgba(212, 175, 55, 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 90%, rgba(44, 83, 100, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(15, 32, 39, 0.5) 0%, transparent 80%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ---- GRID LINES ---- */
+        .grid-bg {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(212, 175, 55, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(212, 175, 55, 0.015) 1px, transparent 1px);
+            background-size: 80px 80px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ---- LAYOUT ---- */
+        .wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* ---- NAV ---- */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 0 32px;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(10, 14, 20, 0.75);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            max-width: 1320px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .nav-sigma {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--platina);
+        }
+
+        .nav-sub {
+            font-family: var(--font-body);
+            font-size: 0.55rem;
+            font-weight: 400;
+            color: var(--gold);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+            background: var(--glow);
+        }
+
+        .nav-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #27AE60;
+            box-shadow: 0 0 8px rgba(39, 174, 96, 0.5);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* ---- HERO ---- */
+        .hero {
+            padding: 140px 0 80px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 20px;
+            border: 1px solid var(--border-hover);
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--gold);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            background: rgba(212, 175, 55, 0.04);
+        }
+
+        .hero-badge svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--gold);
+        }
+
+        .hero-icon {
+            margin-bottom: 24px;
+        }
+
+        .hero-icon svg {
+            width: 64px;
+            height: 80px;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.2));
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            color: var(--platina);
+            margin-bottom: 8px;
+            letter-spacing: 0.03em;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(0.8rem, 1.5vw, 1rem);
+            font-weight: 300;
+            color: var(--gold);
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .hero-desc {
+            font-size: 1rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            max-width: 620px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+
+        /* ---- STATS BAR ---- */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            padding: 32px 0;
+            margin-bottom: 64px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+
+        /* ---- SECTION ---- */
+        .section {
+            margin-bottom: 80px;
+        }
+
+        .section-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--platina);
+            margin-bottom: 8px;
+        }
+
+        .section-desc {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        /* ---- DIRECTORY GRID ---- */
+        .dir-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .dir-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .dir-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .dir-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--border-hover);
+        }
+
+        .dir-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .dir-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .dir-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .dir-count {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            padding: 3px 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .dir-name {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--platina);
+            margin-bottom: 6px;
+        }
+
+        .dir-desc {
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .dir-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 14px;
+        }
+
+        .dir-tag {
+            font-size: 0.65rem;
+            font-weight: 400;
+            padding: 3px 10px;
+            border-radius: 6px;
+            background: rgba(212, 175, 55, 0.06);
+            color: var(--gold);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        /* Color coding for icons */
+        .icon-gov { background: rgba(41, 128, 185, 0.12); color: #3498DB; }
+        .icon-kernel { background: rgba(155, 89, 182, 0.12); color: #9B59B6; }
+        .icon-dir { background: rgba(231, 76, 60, 0.12); color: #E74C3C; }
+        .icon-fw { background: rgba(46, 204, 113, 0.12); color: #2ECC71; }
+        .icon-motor { background: rgba(243, 156, 18, 0.12); color: #F39C12; }
+        .icon-lib { background: rgba(52, 152, 219, 0.12); color: #3498DB; }
+        .icon-brief { background: rgba(26, 188, 156, 0.12); color: #1ABC9C; }
+        .icon-tmpl { background: rgba(230, 126, 34, 0.12); color: #E67E22; }
+        .icon-check { background: rgba(39, 174, 96, 0.12); color: #27AE60; }
+        .icon-kpi { background: rgba(241, 196, 15, 0.12); color: #F1C40F; }
+        .icon-math { background: rgba(142, 68, 173, 0.12); color: #8E44AD; }
+        .icon-ai { background: rgba(52, 73, 94, 0.12); color: #5DADE2; }
+        .icon-doc { background: rgba(149, 165, 166, 0.12); color: #95A5A6; }
+        .icon-case { background: rgba(211, 84, 0, 0.12); color: #D35400; }
+        .icon-onto { background: rgba(22, 160, 133, 0.12); color: #16A085; }
+        .icon-evo { background: rgba(212, 175, 55, 0.12); color: var(--gold); }
+
+        /* ---- ROOT FILES ---- */
+        .root-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+        }
+
+        .root-file {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .root-file:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+        }
+
+        .root-file-icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .root-file-name {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: var(--platina);
+        }
+
+        .root-file-desc {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* ---- BRAND SECTION ---- */
+        .brand-preview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .brand-card {
+            border-radius: var(--radius);
+            padding: 48px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
+            min-height: 200px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .brand-card:hover { transform: translateY(-3px); }
+
+        .brand-card.light-bg {
+            background: var(--platina-light);
+            border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .brand-card.dark-bg {
+            background: var(--navy);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .brand-card svg {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+        }
+
+        .brand-label {
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .brand-card.light-bg .brand-label { color: var(--text-muted); }
+        .brand-card.dark-bg .brand-label { color: rgba(212, 175, 55, 0.5); }
+
+        .brand-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            padding: 10px 24px;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 40px;
+            color: var(--gold);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+        }
+
+        .brand-link:hover {
+            background: rgba(212, 175, 55, 0.15);
+            border-color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        /* ---- ARCHITECTURE SECTION ---- */
+        .arch-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px;
+            margin-top: 32px;
+        }
+
+        .arch-layers {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .arch-layer {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            border-radius: var(--radius-sm);
+            transition: all 0.3s ease;
+        }
+
+        .arch-layer:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .arch-layer-num {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--gold);
+            width: 24px;
+            text-align: center;
+        }
+
+        .arch-layer-bar {
+            flex: 1;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .arch-layer-bar::after {
+            content: '';
+            position: absolute;
+            right: 16px;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            font-weight: 300;
+            opacity: 0.7;
+        }
+
+        .layer-1 { background: linear-gradient(90deg, #2C5364, #203A43); }
+        .layer-1::after { content: 'PostgreSQL · Kafka · Scrapy'; }
+        .layer-2 { background: linear-gradient(90deg, #1A3A4A, #0F2027); }
+        .layer-2::after { content: 'Neo4j · Spark · Redis'; }
+        .layer-3 { background: linear-gradient(90deg, #B8952E, #D4AF37); color: #0F2027; }
+        .layer-3::after { content: '23+ Motores · PLN · ML'; color: #0F2027; }
+        .layer-4 { background: linear-gradient(90deg, #203A43, #2C5364); }
+        .layer-4::after { content: 'Templates · Briefings · Checklists'; }
+        .layer-5 { background: linear-gradient(90deg, #0F2027, #1A3A4A); }
+        .layer-5::after { content: 'React · Dashboards · API'; }
+
+        /* ---- FOOTER ---- */
+        .footer {
+            margin-top: 80px;
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-brand {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--platina);
+            margin-bottom: 4px;
+        }
+
+        .footer-company {
+            font-size: 0.7rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .footer-copy {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ---- SEARCH ---- */
+        .search-box {
+            max-width: 500px;
+            margin: 0 auto 48px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 20px 14px 48px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--platina);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 300;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-input:focus {
+            border-color: var(--border-hover);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.05);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* ---- RESPONSIVE ---- */
+        @media (max-width: 768px) {
+            .wrapper { padding: 0 20px; }
+            .stats-bar { flex-wrap: wrap; gap: 24px; }
+            .dir-grid { grid-template-columns: 1fr; }
+            .brand-preview { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .root-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#" class="nav-brand">
+                <div>
+                    <div class="nav-sigma">Sigma</div>
+                    <div class="nav-sub">Juris Intelligence</div>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#directories">Módulos</a></li>
+                <li><a href="#architecture">Arquitetura</a></li>
+                <li><a href="#brand">Identidade</a></li>
+                <li><a href="assets/brand/brand_guidelines.html">Brand Book</a></li>
+            </ul>
+            <div class="nav-status">
+                <div class="status-dot"></div>
+                <span>v1.0 · Servidor Local</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="wrapper">
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-badge">
+                <svg viewBox="0 0 16 16"><path d="M8 0L10 5.5H16L11 9L13 15L8 11.5L3 15L5 9L0 5.5H6Z"/></svg>
+                Framework v1.0 — Arquitetura Mestra
+            </div>
+            <div class="hero-icon">
+                <svg viewBox="0 0 60 80" fill="none">
+                    <defs>
+                        <linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#D4AF37"/>
+                            <stop offset="50%" style="stop-color:#F2D06B"/>
+                            <stop offset="100%" style="stop-color:#D4AF37"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M 6 6 L 54 6 L 54 14 L 22 14 L 38 38 L 22 62 L 54 62 L 54 70 L 6 70 L 28 38 Z" fill="url(#hg)"/>
+                    <line x1="30" y1="70" x2="30" y2="78" stroke="#D4AF37" stroke-width="2.5"/>
+                    <line x1="18" y1="78" x2="42" y2="78" stroke="#D4AF37" stroke-width="2.5"/>
+                </svg>
+            </div>
+            <h1 class="hero-title">Sigma—Juris</h1>
+            <p class="hero-subtitle">Intelligence Framework</p>
+            <p class="hero-desc">
+                Sistema Integrado de Inteligência Jurídica — um tratado metodológico completo 
+                para análise, pesquisa e estratégia jurídica, com 23+ motores especializados 
+                e arquitetura inspirada em frameworks profissionais.
+            </p>
+        </section>
+
+        <!-- STATS -->
+        <div class="stats-bar">
+            <div class="stat"><div class="stat-value">227</div><div class="stat-label">Arquivos</div></div>
+            <div class="stat"><div class="stat-value">40</div><div class="stat-label">Capítulos</div></div>
+            <div class="stat"><div class="stat-value">16</div><div class="stat-label">Diretórios</div></div>
+            <div class="stat"><div class="stat-value">23+</div><div class="stat-label">Motores</div></div>
+            <div class="stat"><div class="stat-value">11</div><div class="stat-label">Kernels</div></div>
+            <div class="stat"><div class="stat-value">10</div><div class="stat-label">Modelos Math</div></div>
+        </div>
+
+        <!-- SEARCH -->
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="searchInput" placeholder="Buscar módulos, motores, capítulos..." oninput="filterCards()">
+        </div>
+
+        <!-- DIRECTORIES -->
+        <section class="section" id="directories">
+            <div class="section-label">Módulos do Framework</div>
+            <h2 class="section-title">Navegação por Diretórios</h2>
+            <p class="section-desc">Explore a arquitetura completa do SJIF — cada módulo documenta um componente do sistema.</p>
+
+            <div class="dir-grid" id="dirGrid">
+                <div class="dir-card" data-search="governanca filosofia etica principios cap01 cap02" onclick="window.open('00_GOVERNANCA/README.md','_blank')">
+                    <div class="dir-card-header">
+                        <div class="dir-icon icon-gov">⚖️</div>
+                        <span class="dir-count">4 arquivos</span>
+                    </div>
+                    <div class="dir-name">00_GOVERNANCA/</div>
+                    <div class="dir-desc">Filosofia, ética, missão, visão e princípios fundamentais do framework jurídico.</div>
+                    <div class="dir-tags"><span class="dir-tag">Cap. 1-2</span><span class="dir-tag">Ética</span><span class="dir-tag">Missão</span></div>
+                </div>
+
+                <div class="dir-card" data-search="kernel orquestrador especializado executivo processual estrategico recursal cap03 cap40" onclick="window.open('01_KERNEL/README.md','_blank')">
+                    <div class="dir-card-header">
+                        <div class="dir-icon icon-kernel">🧠</div>
+                        <span class="dir-count">15 arquivos</span>
+                    </div>
+                    <div class="dir-name">01_KERNEL/</div>
+                    <div class="dir-desc">Kernel Principal (9 funções), 11 Kernels Especializados e o Kernel Mestre Jurídico (KMJ).</div>
+                    <div class="dir-tags"><span class="dir-tag">Cap. 3, 40</span><span class="dir-tag">KMJ</span><span class="dir-tag">Orquestração</span></div>
+                </div>
+
+                <div class="dir-card" data-search="diretiva mestra processual probatoria jurisprudencial doutrinaria constitucional estrategica recursal auditoria ia" onclick="window.open('02_DIRETIVA_MESTRA/README.md','_blank')">
+                    <div class="dir-card-header">
+                        <div class="dir-icon icon-dir">📜</div>
+                        <span class="dir-count">11 arquivos</span>
+                    </div>
+                    <div class="dir-name">02_DIRETIVA_MESTRA/</div>
+                    <div class="dir-desc">5 diretivas gerais invioláveis + 9 diretivas especializadas para cada área de atuação.</div>
+                    <div class="dir-tags"><span class="dir-tag">Cap. 2</span><span class="dir-tag">9 Diretivas</span><span class="dir-tag">Regras</span></div>
+                </div>
+
+                <div class="dir-card" data-search="framework metodo cientifico logica argumentativa hermeneutica metodologia elementos analise cap04 cap05 cap06" onclick="window.open('03_FRAMEWORK/README.md','_blank')">
+                    <div class="dir-card-header">
+                        <div class="dir-icon icon-fw">🔬</div>
+                        <span class="dir-count">6 arquivos</span>
+                    </div>
+                    <div class="dir-name">03_FRAMEWORK/</div>
+                    <div class="dir-desc">Método científico, lógica argumentativa, hermenêutica e fluxo de análise completo.</div>
+                    <div class="dir-tags"><span class="dir-tag">Cap. 4-6</span><span class="dir-tag">9 Elementos</span><span class="dir-tag">Método</span></div>
+                </div>
+
+                <div class="dir-card" data-search="motores engenharia pesquisa estrategia especializados areas processual prova fundamentacao pedidos recursal execucao legislativa jurisprudencial doutrinaria benchmark comparada gestao riscos compliance auditoria coerencia decisorio forense normativo probatorio matematico estatistico simulacao negociacao empresarial tributario trabalhista minerario ambiental agrario cap07 cap08 cap09 cap10 cap11 cap12 cap13 cap14 cap15 cap16 cap17 cap18 cap19 cap20 cap21 cap22 cap23 cap24 cap25 cap26" onclick="window.open('04_MOTORES/README.md','_blank')">
+                    <div class="dir-card-header">
+                        <div class="dir-icon icon-motor">⚙️</div>
+                        <span class="dir-count">49 arquivos</span>
+                    </div>
+                    <div class="dir-name">04_MOTORES/</div>
+                    <div class="dir-desc">23+ motores especializados em 5 categorias: Engenharia, Pesquisa, Estratégia, Especializados e Áreas.</div>
+                    <div class="dir-tags"><span class="dir-tag">Cap. 7-26</span><span class="dir-tag">23+ Motores</span><span class="dir-tag">MJF</span></div>
+                </div>
+
+                <div class="dir-card" data-search="bibliotecas direito civil empresarial tributario trabalhista ambiental minerario agrario administrativo constitucional processual consumidor digital arbitragem mediacao recuperacao licitacoes estrategias cap31 cap36" onclick="window.open('05_BIBLIOTECAS/README.md','_blank')">
+                    <div class="dir-card-header">
+                        <div class="dir-icon icon-lib">📚</div>
+                        <span class="dir-count">19 arquivos</span>
+                    </div>
+                    <div class="dir-name">05_BIBLIOTECAS/</div>
+                    <div class="dir-desc">Repositório jurídico digital com 16 áreas do Direito + biblioteca de estratégias.</div>
+                    <div class="dir-tags"><span class="dir-tag">Cap. 31, 36</span><span class="dir-tag">16 Áreas</span><span class="dir-tag">Estratégias</span></div>
+                </div>
+
+                <div class="dir-card" data-search="briefings mestre especializados civil empresarial tributario trabalhista cap32" onclick="window.open('06_BRIEFINGS/README.md','_blank')">
+                    <div class="dir-card-header">
+                        <div class="dir-icon icon-brief">📋</div>
+                        <span class="dir-count">23 arquivos</span>
+                    </div>
+                    <div class="dir-name">06_BRIEFINGS/</div>
+                    <div class="dir-desc">Briefing Mestre + 20 briefings especializados para cada área do Direito.</div>
+                    <div class="dir-tags"><span class="dir-tag">Cap. 32</span><span class="dir-tag">20 Briefings</span><span class="dir-tag">PLN</span></div>
+                </div>
+
+                <div class="dir-card" data-search="templates peticoes recursos pareceres memoriais relatorios auditorias notificacoes contratos cap33" onclick="window.open('07_TEMPLATES/README.md','_blank')">
+                    <div class="dir-card-header">
+                        <div class="dir-icon icon-tmpl">📄</div>
+                        <span class="dir-count">16 arquivos</span>
+                    </div>
+                    <div class="dir-name">07_TEMPLATES/</div>
+                    <div class="dir-desc">14 categorias de templates com campos dinâmicos, cláusulas condicionais e auto-preenchimento.</div>
+                    <div class="dir-tags"><span class="dir-tag">Cap. 33</span><span class="dir-tag">14 Categorias</span><span class="dir-tag">Auto-fill</span></div>
+                </div>
+
+                <div class="dir-card" data-search="checklists inicial probatorio processual constitucional recursal tributario trabalhista ambiental minerario agrario compliance auditoria final cap34" onclick="window.open('08_CHECKLISTS/README.md','_blank')">
+                    <div class="dir-card-header">
+                        <div class="dir-icon icon-check">✅</div>
+                        <span class="dir-count">15 arquivos</span>
+                    </div>
+                    <div class="dir-name">08_CHECKLISTS/</div>
+                    <div class="dir-desc">13 checklists operacionais com 20-25 itens de verificação cada.</div>
+                    <div class="dir-tags"><span class="dir-tag">Cap. 34</span><span class="dir-tag">13 Checklists</span><span class="dir-tag">Automação</span></div>
+                </div>
+
+                <div class="dir-card" data-search="indicadores kpi kri processuais financeiros estrategicos recursais compliance empresariais ambientais tributarios litigio regulatorio contratual reputacional cap35" onclick="window.open('09_INDICADORES/README.md','_blank')">
+                    <div class="dir-card-header">
+                        <div class="dir-icon icon-kpi">📊</div>
+                        <span class="dir-count">14 arquivos</span>
+                    </div>
+                    <div class="dir-name">09_INDICADORES/</div>
+                    <div class="dir-desc">8 KPIs + 4 KRIs com fórmulas, metas em 3 tiers e integração com dashboards.</div>
+                    <div class="dir-tags"><span class="dir-tag">Cap. 35</span><span class="dir-tag">8 KPIs</span><span class="dir-tag">4 KRIs</span></div>
+                </div>
+
+                <div class="dir-card" data-search="modelos matematicos ponderacao probabilistico multicriterio bayesiano sensibilidade priorizacao peso provas robustez risco simulacao cenarios monte carlo cap29" onclick="window.open('10_MODELOS_MATEMATICOS/README.md','_blank')">
+                    <div class="dir-card-header">
+                        <div class="dir-icon icon-math">📐</div>
+                        <span class="dir-count">12 arquivos</span>
+                    </div>
+                    <div class="dir-name">10_MODELOS_MATEMATICOS/</div>
+                    <div class="dir-desc">10 modelos com fórmulas LaTeX: Ponderação, Bayesiano, Monte Carlo e mais.</div>
+                    <div class="dir-tags"><span class="dir-tag">Cap. 29</span><span class="dir-tag">10 Modelos</span><span class="dir-tag">LaTeX</span></div>
+                </div>
+
+                <div class="dir-card" data-search="inteligencia artificial ia pln nlp machine learning deep learning redes neurais etica vies explicabilidade privacidade lgpd cap30" onclick="window.open('11_INTELIGENCIA_ARTIFICIAL/README.md','_blank')">
+                    <div class="dir-card-header">
+                        <div class="dir-icon icon-ai">🤖</div>
+                        <span class="dir-count">13 arquivos</span>
+                    </div>
+                    <div class="dir-name">11_INTELIGENCIA_ARTIFICIAL/</div>
+                    <div class="dir-desc">PLN, Machine Learning, Deep Learning, Sistemas Especialistas e Ética IA (LGPD).</div>
+                    <div class="dir-tags"><span class="dir-tag">Cap. 30</span><span class="dir-tag">PLN/ML/DL</span><span class="dir-tag">XAI</span></div>
+                </div>
+
+                <div class="dir-card" data-search="documentacao manual implementacao operacional guia rapido faq cap37 cap38" onclick="window.open('12_DOCUMENTACAO/README.md','_blank')">
+                    <div class="dir-card-header">
+                        <div class="dir-icon icon-doc">📖</div>
+                        <span class="dir-count">5 arquivos</span>
+                    </div>
+                    <div class="dir-name">12_DOCUMENTACAO/</div>
+                    <div class="dir-desc">Manual de implementação, manual operacional, guia rápido e FAQ.</div>
+                    <div class="dir-tags"><span class="dir-tag">Cap. 37-38</span><span class="dir-tag">Docker/K8s</span><span class="dir-tag">FAQ</span></div>
+                </div>
+
+                <div class="dir-card" data-search="casos uso litigio due diligence compliance lgpd estrategia recursal analise contratos cap39" onclick="window.open('13_CASOS_DE_USO/README.md','_blank')">
+                    <div class="dir-card-header">
+                        <div class="dir-icon icon-case">🎯</div>
+                        <span class="dir-count">7 arquivos</span>
+                    </div>
+                    <div class="dir-name">13_CASOS_DE_USO/</div>
+                    <div class="dir-desc">5 casos práticos: Litígio, Due Diligence, LGPD, Recursos e Contratos.</div>
+                    <div class="dir-tags"><span class="dir-tag">Cap. 39</span><span class="dir-tag">5 Casos</span><span class="dir-tag">Prático</span></div>
+                </div>
+
+                <div class="dir-card" data-search="ontologia grafo conhecimento owl rdf neo4j sparql vocabulario schemas entidades relacoes propriedades cap27 cap28" onclick="window.open('14_ONTOLOGIA_GRAFO/README.md','_blank')">
+                    <div class="dir-card-header">
+                        <div class="dir-icon icon-onto">🕸️</div>
+                        <span class="dir-count">7 arquivos</span>
+                    </div>
+                    <div class="dir-name">14_ONTOLOGIA_GRAFO/</div>
+                    <div class="dir-desc">Ontologia Jurídica (OWL/RDF), Grafo de Conhecimento (Neo4j) e Schemas.</div>
+                    <div class="dir-tags"><span class="dir-tag">Cap. 27-28</span><span class="dir-tag">Neo4j</span><span class="dir-tag">OWL/RDF</span></div>
+                </div>
+
+                <div class="dir-card" data-search="evolucao roadmap versoes contribuicao contributing" onclick="window.open('99_EVOLUCAO/README.md','_blank')">
+                    <div class="dir-card-header">
+                        <div class="dir-icon icon-evo">🚀</div>
+                        <span class="dir-count">3 arquivos</span>
+                    </div>
+                    <div class="dir-name">99_EVOLUCAO/</div>
+                    <div class="dir-desc">Roadmap de evolução, release notes v1.0.0 e guia de contribuição.</div>
+                    <div class="dir-tags"><span class="dir-tag">Roadmap</span><span class="dir-tag">v1.0→v3.0</span><span class="dir-tag">Contributing</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROOT FILES -->
+        <section class="section" id="root-files">
+            <div class="section-label">Documentos Raiz</div>
+            <h2 class="section-title">Arquivos Principais</h2>
+            <p class="section-desc">Documentação de nível superior do projeto.</p>
+            <div class="root-grid">
+                <div class="root-file" onclick="window.open('README.md','_blank')">
+                    <span class="root-file-icon">📘</span>
+                    <div><div class="root-file-name">README.md</div><div class="root-file-desc">Sumário Executivo</div></div>
+                </div>
+                <div class="root-file" onclick="window.open('ARCHITECTURE.md','_blank')">
+                    <span class="root-file-icon">🏗️</span>
+                    <div><div class="root-file-name">ARCHITECTURE.md</div><div class="root-file-desc">10 Diagramas Mermaid</div></div>
+                </div>
+                <div class="root-file" onclick="window.open('ROADMAP.md','_blank')">
+                    <span class="root-file-icon">🗺️</span>
+                    <div><div class="root-file-name">ROADMAP.md</div><div class="root-file-desc">Evolução v1.0→v3.0</div></div>
+                </div>
+                <div class="root-file" onclick="window.open('CHANGELOG.md','_blank')">
+                    <span class="root-file-icon">📝</span>
+                    <div><div class="root-file-name">CHANGELOG.md</div><div class="root-file-desc">Histórico de Versões</div></div>
+                </div>
+                <div class="root-file" onclick="window.open('LICENSE.md','_blank')">
+                    <span class="root-file-icon">🔒</span>
+                    <div><div class="root-file-name">LICENSE.md</div><div class="root-file-desc">Licença Proprietária</div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ARCHITECTURE -->
+        <section class="section" id="architecture">
+            <div class="section-label">Visão Técnica</div>
+            <h2 class="section-title">Arquitetura de 5 Camadas</h2>
+            <p class="section-desc">A stack tecnológica do SJIF organizada em camadas.</p>
+            <div class="arch-card">
+                <div class="arch-layers">
+                    <div class="arch-layer">
+                        <span class="arch-layer-num">05</span>
+                        <div class="arch-layer-bar layer-5">Interface & Apresentação</div>
+                    </div>
+                    <div class="arch-layer">
+                        <span class="arch-layer-num">04</span>
+                        <div class="arch-layer-bar layer-4">Bibliotecas de Conhecimento</div>
+                    </div>
+                    <div class="arch-layer">
+                        <span class="arch-layer-num">03</span>
+                        <div class="arch-layer-bar layer-3">Motores de Inteligência</div>
+                    </div>
+                    <div class="arch-layer">
+                        <span class="arch-layer-num">02</span>
+                        <div class="arch-layer-bar layer-2">Processamento & Storage</div>
+                    </div>
+                    <div class="arch-layer">
+                        <span class="arch-layer-num">01</span>
+                        <div class="arch-layer-bar layer-1">Coleta de Dados</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BRAND -->
+        <section class="section" id="brand">
+            <div class="section-label">Identidade Visual</div>
+            <h2 class="section-title">Marca & Design</h2>
+            <p class="section-desc">Logos, paleta de cores e diretrizes visuais do Sigma—Juris Intelligence.</p>
+            <div class="brand-preview">
+                <div class="brand-card light-bg">
+                    <svg viewBox="0 0 400 120">
+                        <defs>
+                            <linearGradient id="gP1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#D4AF37"/><stop offset="50%" style="stop-color:#F2D06B"/><stop offset="100%" style="stop-color:#D4AF37"/></linearGradient>
+                            <linearGradient id="nP1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#1A3A4A"/><stop offset="100%" style="stop-color:#0F2027"/></linearGradient>
+                        </defs>
+                        <g transform="translate(15,20)"><path d="M 8 8 L 48 8 L 48 14 L 22 14 L 38 40 L 22 66 L 48 66 L 48 72 L 8 72 L 28 40 Z" fill="url(#gP1)"/><line x1="28" y1="72" x2="28" y2="82" stroke="#0F2027" stroke-width="2"/><line x1="16" y1="82" x2="40" y2="82" stroke="#0F2027" stroke-width="2"/><path d="M 13 82 C 13 90 23 90 23 82" stroke="url(#gP1)" stroke-width="1.2" fill="none"/><path d="M 33 82 C 33 90 43 90 43 82" stroke="url(#gP1)" stroke-width="1.2" fill="none"/></g>
+                        <line x1="80" y1="30" x2="80" y2="90" stroke="url(#gP1)" stroke-width="1" opacity="0.6"/>
+                        <text x="95" y="62" font-family="'Playfair Display',serif" font-size="42" font-weight="700" fill="url(#nP1)" letter-spacing="0.05em">SIGMA</text>
+                        <text x="97" y="82" font-family="'Montserrat',sans-serif" font-size="12" font-weight="300" fill="#0F2027" letter-spacing="0.35em" opacity="0.85">JURIS INTELLIGENCE</text>
+                    </svg>
+                    <span class="brand-label">Light Mode</span>
+                </div>
+                <div class="brand-card dark-bg">
+                    <svg viewBox="0 0 400 120">
+                        <defs><linearGradient id="gP2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#D4AF37"/><stop offset="50%" style="stop-color:#F2D06B"/><stop offset="100%" style="stop-color:#D4AF37"/></linearGradient></defs>
+                        <g transform="translate(15,20)"><path d="M 8 8 L 48 8 L 48 14 L 22 14 L 38 40 L 22 66 L 48 66 L 48 72 L 8 72 L 28 40 Z" fill="url(#gP2)"/><line x1="28" y1="72" x2="28" y2="82" stroke="#D4AF37" stroke-width="2"/><line x1="16" y1="82" x2="40" y2="82" stroke="#D4AF37" stroke-width="2"/><path d="M 13 82 C 13 90 23 90 23 82" stroke="url(#gP2)" stroke-width="1.2" fill="none"/><path d="M 33 82 C 33 90 43 90 43 82" stroke="url(#gP2)" stroke-width="1.2" fill="none"/></g>
+                        <line x1="80" y1="30" x2="80" y2="90" stroke="url(#gP2)" stroke-width="1" opacity="0.4"/>
+                        <text x="95" y="62" font-family="'Playfair Display',serif" font-size="42" font-weight="700" fill="#E0E4E5" letter-spacing="0.05em">SIGMA</text>
+                        <text x="97" y="82" font-family="'Montserrat',sans-serif" font-size="12" font-weight="300" fill="#D4AF37" letter-spacing="0.35em">JURIS INTELLIGENCE</text>
+                    </svg>
+                    <span class="brand-label">Dark Mode</span>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 32px;">
+                <a href="assets/brand/brand_guidelines.html" class="brand-link">
+                    📖 Abrir Brand Book Completo →
+                </a>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="footer-brand">Sigma—Juris Intelligence</div>
+            <div class="footer-company">
+                Propriedade de Charles de Paula Eugênio · Sigma Sihf Soluções Analíticas Ltda · CNPJ: 01.851.824/0001-38
+            </div>
+            <div class="footer-copy">© 2026 Sigma—Juris Intelligence. Todos os direitos reservados. Framework v1.0</div>
+        </footer>
+    </div>
+
+    <script>
+        function filterCards() {
+            const query = document.getElementById('searchInput').value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            const cards = document.querySelectorAll('.dir-card');
+            cards.forEach(card => {
+                const text = (card.dataset.search + ' ' + card.textContent).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                card.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>
