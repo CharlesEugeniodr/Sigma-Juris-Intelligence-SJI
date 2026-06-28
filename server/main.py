@@ -38,7 +38,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Sigma—Juris Intelligence API",
-    version="3.0.0",
+    version="3.1.0",
     description="API do Motor de Inteligência Judicial (MIJ) — "
     "Plataforma de inteligência jurídica para análise de documentos, "
     "processos e magistrados.",
@@ -72,7 +72,7 @@ async def root():
     """Informações da API."""
     return {
         "nome": "Sigma—Juris Intelligence API",
-        "versão": "3.0.0",
+        "versão": "3.1.0",
         "descrição": "Motor de Inteligência Judicial (MIJ)",
         "status": "operacional",
         "endpoints": {

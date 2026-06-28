@@ -340,6 +340,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.app = new SJIFApp();
     await window.app.init();
     console.log('✅ SJIF App initialized successfully');
+
+    // Hamburger menu toggle for mobile
+    var hamburger = document.getElementById('hamburger-btn');
+    var sidebar = document.getElementById('sidebar');
+    if (hamburger && sidebar) {
+      hamburger.addEventListener('click', function() {
+        sidebar.classList.toggle('open');
+      });
+      // Close sidebar when clicking a nav link on mobile
+      sidebar.addEventListener('click', function(e) {
+        if (e.target.closest('.sidebar-nav-item') && window.innerWidth <= 768) {
+          sidebar.classList.remove('open');
+        }
+      });
+    }
   } catch (err) {
     console.error('❌ SJIF App initialization error:', err);
   }

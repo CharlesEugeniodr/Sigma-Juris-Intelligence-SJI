@@ -1,18 +1,22 @@
 """
 Router de autenticação — login, registro e perfil.
 """
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from server.database import get_db
 from server.models.user import User
+from server.security.rate_limit import login_limiter
+from server.security.token_blacklist import token_blacklist
 from server.services.auth_service import (
     get_password_hash,
     verify_password,
     create_access_token,
     get_current_user,
+    verify_token,
+    oauth2_scheme,
 )
 
 router = APIRouter(prefix="/api/auth", tags=["Autenticação"])
@@ -50,8 +54,10 @@ class UserResponse(BaseModel):
 
 # ─── Endpoints ──────────────────────────────────────────────────────
 @router.post("/login", response_model=TokenResponse)
-async def login(body: LoginRequest, db: AsyncSession = Depends(get_db)):
+async def login(body: LoginRequest, request: Request, db: AsyncSession = Depends(get_db)):
     """Autentica o usuário e retorna token JWT."""
+    login_limiter.check(request)
+
     result = await db.execute(select(User).where(User.email == body.email))
     user = result.scalars().first()
 
@@ -67,6 +73,7 @@ async def login(body: LoginRequest, db: AsyncSession = Depends(get_db)):
             detail="Usuário desativado",
         )
 
+    login_limiter.reset(request)
     token = create_access_token(data={"sub": user.email, "role": user.role})
     return TokenResponse(access_token=token, user=user.to_dict())
 
@@ -128,6 +135,15 @@ async def me(current_user: User = Depends(get_current_user)):
         is_active=current_user.is_active,
         created_at=current_user.created_at.isoformat() if current_user.created_at else None,
     )
+
+
+@router.post("/logout")
+async def logout(token: str = Depends(oauth2_scheme)):
+    """Revoga o token atual (logout)."""
+    payload = verify_token(token)
+    exp = payload.get("exp", 0)
+    token_blacklist.add(token, exp)
+    return {"message": "Logout realizado com sucesso"}
 
 
 # ─── Seed ───────────────────────────────────────────────────────────

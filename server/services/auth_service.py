@@ -48,17 +48,27 @@ def create_access_token(
 
 def verify_token(token: str) -> dict:
     """Decodifica e valida o token JWT. Retorna o payload."""
+    from server.security.token_blacklist import token_blacklist
+
     try:
         payload = jwt.decode(
             token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
         )
-        return payload
     except JWTError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token inválido ou expirado",
             headers={"WWW-Authenticate": "Bearer"},
         )
+
+    if token_blacklist.is_blacklisted(token):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token revogado",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    return payload
 
 
 async def get_current_user(
