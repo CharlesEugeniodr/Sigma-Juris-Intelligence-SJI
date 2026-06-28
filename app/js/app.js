@@ -173,7 +173,10 @@ class SJIFApp {
     const main = document.getElementById('main-app');
     if (login) login.style.display = 'flex';
     if (main) main.style.display = 'none';
-    if (window.LoginPage) window.LoginPage.render();
+    // Render login into the login-page container
+    if (window.LoginPage) {
+      window.LoginPage.renderInto(login || document.getElementById('page-container'));
+    }
   }
 
   logout() {
