@@ -9,6 +9,8 @@ window.ProcessesPage = {
     if (!container) return;
     container.innerHTML = '';
 
+    if (!window.app || !window.app.store) { container.innerHTML = '<p>Carregando...</p>'; return; }
+
     const processes = await window.app.store.getAllProcesses();
     const documents = await window.app.store.getAllDocuments();
     const categories = (window.SJIF_TAXONOMY && window.SJIF_TAXONOMY.categories) || [];
@@ -125,8 +127,8 @@ window.ProcessesPage = {
 
       if (window.SJIFUtils && window.SJIFUtils.showModal) {
         window.SJIFUtils.showModal('Novo Processo', formHTML, [
-          { label: 'Cancelar', class: 'btn btn-secondary', action: () => window.SJIFUtils.closeModal() },
-          { label: 'Salvar Processo', class: 'btn btn-primary', action: async () => {
+          { label: 'Cancelar', class: 'btn btn-secondary', onClick: () => window.SJIFUtils.closeModal() },
+          { label: 'Salvar Processo', class: 'btn btn-primary', onClick: async () => {
             const number = document.getElementById('proc-number').value || window.SJIFUtils.generateProcessNumber();
             const area = document.getElementById('proc-area').value;
             const court = document.getElementById('proc-court').value;
@@ -157,10 +159,12 @@ window.ProcessesPage = {
 
   async deleteProcess(id) {
     if (!confirm('Tem certeza que deseja excluir este processo?')) return;
-    // Note: In a real app, we'd have a deleteProcess method in store
-    // For now, we'll just re-render
-    if (window.SJIFUtils) {
-      window.SJIFUtils.showToast('Funcionalidade de exclusão em desenvolvimento', 'info');
+    try {
+      await window.app.store.deleteProcess(id);
+      SJIFUtils.showToast('Processo excluído com sucesso', 'success');
+      ProcessesPage.render(document.getElementById('page-container'));
+    } catch(e) {
+      SJIFUtils.showToast('Erro ao excluir: ' + e.message, 'error');
     }
   }
 };

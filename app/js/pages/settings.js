@@ -9,6 +9,8 @@ window.SettingsPage = {
     if (!container) return;
     container.innerHTML = '';
 
+    if (!window.app || !window.app.auth) { container.innerHTML = '<p>Carregando...</p>'; return; }
+
     const user = window.app.auth.getCurrentUser() || { name: 'Usuário', email: '—', role: 'admin', avatar: 'US' };
     const roleLabels = { admin: 'Administrador', analyst: 'Analista', consultant: 'Consultor' };
 
@@ -20,10 +22,10 @@ window.SettingsPage = {
       <!-- User Profile -->
       <div class="card" style="margin-bottom:24px">
         <div class="card-body" style="padding:32px;display:flex;align-items:center;gap:24px">
-          <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;color:var(--navy);flex-shrink:0">${user.avatar || 'US'}</div>
+          <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;color:var(--navy);flex-shrink:0">${SJIFUtils.escapeHtml(user.avatar || 'US')}</div>
           <div>
-            <h3 style="color:var(--text-heading);margin-bottom:4px">${user.name}</h3>
-            <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:8px">${user.email}</p>
+            <h3 style="color:var(--text-heading);margin-bottom:4px">${SJIFUtils.escapeHtml(user.name)}</h3>
+            <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:8px">${SJIFUtils.escapeHtml(user.email)}</p>
             <span class="badge badge-success">${roleLabels[user.role] || user.role}</span>
           </div>
         </div>

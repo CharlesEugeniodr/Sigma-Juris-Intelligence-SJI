@@ -4,12 +4,12 @@
 
 <div align="center">
 
-**v1.0.0** | Tratado Metodológico Completo
+**v3.0.0** | Tratado Metodológico Completo + Aplicação Web
 
 *Arquitetura inspirada em frameworks profissionais como ERPs e Sistemas Operacionais*
 
 [![Licença](https://img.shields.io/badge/Licen%C3%A7a-Propriet%C3%A1ria-red.svg)](#licenciamento)
-[![Versão](https://img.shields.io/badge/Vers%C3%A3o-1.0.0-blue.svg)](99_EVOLUCAO/versoes/v1.0.0.md)
+[![Versão](https://img.shields.io/badge/Vers%C3%A3o-3.0.0-blue.svg)](99_EVOLUCAO/versoes/v3.0.0.md)
 [![Capítulos](https://img.shields.io/badge/Cap%C3%ADtulos-40-green.svg)](#sumário-dos-40-capítulos)
 [![Motores](https://img.shields.io/badge/Motores-23%2B-orange.svg)](04_MOTORES/)
 
@@ -36,6 +36,8 @@ Ser a principal referência em inteligência jurídica especializada, reconhecid
 
 ```
 SJIF/
+├── app/ ........................ Frontend SPA (HTML, CSS, JavaScript)
+├── server/ ..................... Backend API (FastAPI, SQLAlchemy, JWT)
 ├── 00_GOVERNANCA ............... Governança, Ética e Filosofia do Framework
 ├── 01_KERNEL ................... Kernel Jurídico Principal + 11 Especializados + KMJ
 ├── 02_DIRETIVA_MESTRA .......... 10 Diretivas Inegociáveis
@@ -204,12 +206,34 @@ Ponderação · Probabilístico · Multicritério · Bayesiano · Sensibilidade 
 
 ## 🚀 Início Rápido
 
+### Executar a Aplicação Web
+
+```bash
+cd Sigma-Juris-Intelligence-SJI
+pip install -r server/requirements.txt
+uvicorn server.main:app --port 5000 --reload
+# Open http://localhost:5000/app/
+```
+
+### Explorar a Documentação
+
 1. Explore a [Arquitetura Visual](ARCHITECTURE.md) para entender a estrutura do sistema
 2. Leia a [Governança e Filosofia](00_GOVERNANCA/cap01_governanca_filosofia.md) para compreender os princípios
 3. Estude a [Diretiva Mestra](00_GOVERNANCA/cap02_diretiva_mestra.md) — o coração do framework
 4. Conheça o [Kernel Jurídico](01_KERNEL/cap03_kernel_juridico.md) — o orquestrador central
 5. Explore os [Casos de Uso](13_CASOS_DE_USO/) para ver aplicações práticas
 6. Consulte o [Manual Operacional](12_DOCUMENTACAO/cap38_manual_operacional.md) para uso diário
+
+---
+
+## 🌐 Aplicação Web
+
+O SJIF inclui uma **aplicação web completa** com frontend SPA e backend API:
+
+| Componente | Descrição |
+|---|---|
+| **`app/`** | Frontend SPA com vanilla JavaScript, Dashboard com Chart.js, Classificador de Documentos (197 tipos), Analisador (9 elementos), MIJ Dashboard, Magistrados e Simulador |
+| **`server/`** | Backend API com FastAPI, SQLAlchemy (async), JWT + bcrypt auth, Motor de Inteligência Judicial (MIJ) com métricas SET/IPT/TR/IAJ, scrapers para DataJud/TJMG/STJ |
 
 ---
 
@@ -230,10 +254,11 @@ Reprodução, distribuição ou uso não autorizado são proibidos sem permissã
 | Versão | Escopo | Status |
 |--------|--------|--------|
 | **v1.0** | Arquitetura Mestra + 40 Capítulos Documentados | ✅ Concluída |
-| **v1.1** | Implementação dos Motores Core (Normativo, Jurisprudencial, Coerência) | 🔜 Planejada |
-| **v1.2** | Integração IA/PLN + Busca Semântica | 🔜 Planejada |
-| **v2.0** | Plataforma Web + Interface de Usuário | 🔜 Planejada |
-| **v3.0** | Grafo de Conhecimento (Neo4j) + KMJ Autônomo | 🔜 Planejada |
+| **v2.0** | Frontend SPA + Dashboard + Classificador de Documentos + MIJ Pages | ✅ Concluída |
+| **v3.0** | Backend API (FastAPI) + MIJ Engine + Scrapers + JWT Auth + Seed Data | 🚧 Atual |
+| **v3.1** | Implementação dos Motores Core (Normativo, Jurisprudencial, Coerência) | 🔜 Planejada |
+| **v3.2** | Integração IA/PLN + Busca Semântica | 🔜 Planejada |
+| **v4.0** | Grafo de Conhecimento (Neo4j) + KMJ Autônomo | 🔜 Planejada |
 
 ---
 
@@ -245,7 +270,7 @@ Consulte [CONTRIBUTING.md](99_EVOLUCAO/contribuicao/CONTRIBUTING.md) para diretr
 
 <div align="center">
 
-**Sigma—Juris Intelligence Framework (SJIF) v1.0**
+**Sigma—Juris Intelligence Framework (SJIF) v3.0**
 
 *Transformando dados jurídicos em inteligência acionável*
 

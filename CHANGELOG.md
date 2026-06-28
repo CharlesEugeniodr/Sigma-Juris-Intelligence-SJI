@@ -7,6 +7,42 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 
 ---
 
+## [3.0.0] - 2026-06-28
+
+### Added
+- Backend API with FastAPI (server/)
+- Motor de Inteligência Judicial (MIJ) with SET, IPT, TR, IAJ metrics
+- MIJ API endpoints: magistrados, decisoes, tribunais, simulador
+- Scraper modules for DataJud, TJMG, STJ
+- Database models with SQLAlchemy (async)
+- JWT authentication system
+- Seed data for 50+ magistrados and 900+ decisões
+
+### Fixed
+- Security: bcrypt password hashing (replaced SHA256)
+- Security: Removed hardcoded credentials from client JS
+- Security: Protected /register endpoint
+- Bug: Logout button ID mismatch
+- Bug: Upload saveDocument method
+- Bug: Process modal callback
+- Connected metricas.py calculator to API
+
+---
+
+## [2.0.0] - 2026-06-27
+
+### Added
+- Frontend SPA with vanilla JavaScript
+- Document classifier (197 legal document types)
+- Document analyzer (9-element analysis)
+- Dashboard with Chart.js visualizations
+- IndexedDB-based local storage
+- Hash-based SPA routing
+- Dark theme premium design system
+- MIJ Dashboard, Magistrados, and Simulador pages
+
+---
+
 ## [1.0.0] — 2026-06-27
 
 ### 🎉 Lançamento Inaugural
@@ -85,7 +121,9 @@ Versão inaugural do Sigma—Juris Intelligence Framework (SJIF), consolidando a
 
 | Versão | Data | Tipo | Descrição |
 |--------|------|------|-----------|
+| **3.0.0** | 2026-06-28 | Major | Backend API (FastAPI) + MIJ Engine + JWT Auth + Seed Data |
+| **2.0.0** | 2026-06-27 | Major | Frontend SPA + Dashboard + Classificador + MIJ Pages |
 | **1.0.0** | 2026-06-27 | Major | Lançamento inaugural — Arquitetura mestra completa |
 
 ---
-> Sigma—Juris Intelligence Framework (SJIF) v1.0 | Propriedade de Charles de Paula Eugênio — Sigma Sihf Soluções Analíticas Ltda
+> Sigma—Juris Intelligence Framework (SJIF) v3.0 | Propriedade de Charles de Paula Eugênio — Sigma Sihf Soluções Analíticas Ltda

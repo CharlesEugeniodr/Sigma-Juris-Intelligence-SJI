@@ -9,7 +9,8 @@ class Settings(BaseSettings):
     """Configurações da aplicação Sigma-Juris Intelligence."""
 
     DATABASE_URL: str = "sqlite+aiosqlite:///./sjif.db"
-    SECRET_KEY: str = "sjif-sigma-juris-2026-secret-key"
+    # MUST be overridden via SJIF_SECRET_KEY env var in production
+    SECRET_KEY: str = "CHANGE-ME-IN-PRODUCTION-use-env-SJIF_SECRET_KEY"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 480
     CORS_ORIGINS: List[str] = [
@@ -21,7 +22,8 @@ class Settings(BaseSettings):
         "http://localhost:9000",
         "http://127.0.0.1:9000",
         "http://localhost:3000",
-        "*",
+        "http://localhost:5000",
+        "http://127.0.0.1:5000",
     ]
 
     class Config:

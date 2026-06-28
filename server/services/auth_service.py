@@ -1,8 +1,6 @@
-"""
-Serviço de autenticação — hashing, JWT, e dependências de segurança.
-"""
-import hashlib
 import secrets
+import bcrypt
+
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
@@ -17,18 +15,21 @@ from server.database import get_db
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 
-_HASH_SALT = "sjif-sigma-2026-salt"
-
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Verifica se a senha em texto corresponde ao hash."""
-    return get_password_hash(plain_password) == hashed_password
+    """Verifica se a senha em texto corresponde ao hash bcrypt."""
+    return bcrypt.checkpw(
+        plain_password.encode("utf-8"),
+        hashed_password.encode("utf-8"),
+    )
 
 
 def get_password_hash(password: str) -> str:
-    """Gera hash SHA256 da senha com salt."""
-    salted = f"{_HASH_SALT}:{password}"
-    return hashlib.sha256(salted.encode()).hexdigest()
+    """Gera hash bcrypt da senha."""
+    return bcrypt.hashpw(
+        password.encode("utf-8"),
+        bcrypt.gensalt(),
+    ).decode("utf-8")
 
 
 def create_access_token(

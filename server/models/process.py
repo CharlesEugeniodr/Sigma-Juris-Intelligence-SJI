@@ -13,7 +13,7 @@ class Process(Base):
     __tablename__ = "processes"
 
     id = Column(String(36), primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     number = Column(String(50), nullable=False)
     area = Column(String(50), nullable=True)
     court = Column(String(200), nullable=True)

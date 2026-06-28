@@ -3,6 +3,15 @@
 
   window.SJIFUtils = {
 
+    // === Security ===
+
+    escapeHtml: function(str) {
+      if (!str) return '';
+      var div = document.createElement('div');
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
+    },
+
     // === Formatting ===
 
     formatDate(date, format = 'dd/MM/yyyy') {

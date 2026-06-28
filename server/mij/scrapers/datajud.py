@@ -8,6 +8,7 @@ Tribunais suportados: TJMG, TJPA, TJMA, STJ
 """
 
 import logging
+import os
 from datetime import datetime
 from typing import Optional
 
@@ -25,7 +26,7 @@ TRIBUNAIS_SUPORTADOS = {
 
 BASE_URL = "https://api-publica.datajud.cnj.jus.br"
 
-API_KEY = "cDZHYzlZa0JadVREZDJCendQbXY6SkJlTzNjLV9TRENyQk1RdnFKVGtRZw=="
+API_KEY = os.environ.get("SJIF_DATAJUD_API_KEY", "")
 
 DEFAULT_HEADERS = {
     "Authorization": f"APIKey {API_KEY}",

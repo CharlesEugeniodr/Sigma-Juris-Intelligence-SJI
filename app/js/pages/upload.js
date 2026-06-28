@@ -424,7 +424,7 @@ window.UploadPage = {
           date: new Date().toISOString()
         };
 
-        await store.saveDocument(doc);
+        await store.addDocument(doc);
         window.SJIFUtils.showToast('Documento analisado e salvo com sucesso!', 'success');
         window.location.hash = '#/analysis/' + docId;
       } catch (err) {

@@ -1,5 +1,6 @@
 # Python
 __pycache__/
+**/__pycache__/
 *.py[cod]
 *.pyo
 *.egg-info/
@@ -9,6 +10,18 @@ build/
 
 # Database
 *.db
+*.sqlite
+sjif.db
+
+# Binary documents (should not be versioned)
+*.docx
+*.xlsx
+
+# Uploads
+uploads/
+
+# Node
+node_modules/
 
 # Environment
 .env

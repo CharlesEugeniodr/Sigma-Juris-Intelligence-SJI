@@ -2,6 +2,13 @@
 
 ## Sigma—Juris Intelligence Framework — Visão Arquitetural Completa
 
+> [!NOTE]
+> This document describes the **target architecture vision**. The current implementation (v3.0) uses:
+> - **Backend**: Python FastAPI + SQLAlchemy + SQLite (async)
+> - **Frontend**: Vanilla JavaScript SPA
+> - **Auth**: JWT + bcrypt
+> - **Database**: SQLite (aiosqlite)
+
 Este documento apresenta os diagramas visuais da arquitetura do SJIF, seus fluxos de operação e as interdependências entre componentes.
 
 ---
@@ -467,4 +474,4 @@ graph TB
 
 ---
 
-> Sigma—Juris Intelligence Framework (SJIF) v1.0 | Propriedade de Charles de Paula Eugênio — Sigma Sihf Soluções Analíticas Ltda
+> Sigma—Juris Intelligence Framework (SJIF) v3.0 | Propriedade de Charles de Paula Eugênio — Sigma Sihf Soluções Analíticas Ltda

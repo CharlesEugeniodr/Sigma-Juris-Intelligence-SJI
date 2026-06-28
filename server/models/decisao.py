@@ -13,7 +13,7 @@ class Decisao(Base):
     __tablename__ = "decisoes"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    magistrado_id = Column(Integer, ForeignKey("magistrados.id"), index=True, nullable=False)
+    magistrado_id = Column(Integer, ForeignKey("magistrados.id", ondelete="CASCADE"), index=True, nullable=False)
     processo_numero = Column(String(50), index=True, nullable=False)
     tipo = Column(String(100), nullable=False)
     resultado = Column(String(50), nullable=False)

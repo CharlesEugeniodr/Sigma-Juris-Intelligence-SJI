@@ -40,7 +40,7 @@ class SJIFApp {
   }
 
   setupLogout() {
-    const logoutBtn = document.getElementById('logout-btn');
+    const logoutBtn = document.getElementById('btn-logout');
     if (logoutBtn) {
       logoutBtn.addEventListener('click', (e) => {
         e.preventDefault();
@@ -62,7 +62,7 @@ class SJIFApp {
     }
   }
 
-  route() {
+  async route() {
     const hash = window.location.hash || '#/dashboard';
     const parts = hash.replace('#/', '').split('/');
     const path = parts[0] || 'dashboard';
@@ -95,38 +95,42 @@ class SJIFApp {
     try {
       switch (path) {
         case 'dashboard':
-          if (window.DashboardPage) window.DashboardPage.render();
+          if (window.DashboardPage) await window.DashboardPage.render();
           break;
         case 'upload':
-          if (window.UploadPage) window.UploadPage.render();
+          if (window.UploadPage) await window.UploadPage.render();
           break;
         case 'documents':
-          if (window.DocumentsPage) window.DocumentsPage.render();
+          if (window.DocumentsPage) await window.DocumentsPage.render();
           break;
         case 'analysis':
-          if (window.AnalysisPage) window.AnalysisPage.render(param);
+          if (window.AnalysisPage) await window.AnalysisPage.render(param);
           break;
         case 'taxonomy':
-          if (window.TaxonomyPage) window.TaxonomyPage.render();
+          if (window.TaxonomyPage) await window.TaxonomyPage.render();
           break;
         case 'processes':
-          if (window.ProcessesPage) window.ProcessesPage.render();
+          if (window.ProcessesPage) await window.ProcessesPage.render();
           break;
         case 'settings':
-          if (window.SettingsPage) window.SettingsPage.render();
+          if (window.SettingsPage) await window.SettingsPage.render();
           break;
         // MIJ Routes
         case 'mij':
           if (param === 'magistrados') {
-            if (window.MIJMagistradosPage) window.MIJMagistradosPage.render();
+            if (window.MIJMagistradosPage) await window.MIJMagistradosPage.render();
           } else if (param === 'simulador') {
-            if (window.MIJSimuladorPage) window.MIJSimuladorPage.render();
+            if (window.MIJSimuladorPage) await window.MIJSimuladorPage.render();
+          } else if (param === 'tribunal') {
+            if (window.MIJDashboardPage) await window.MIJDashboardPage.render('tribunal');
+          } else if (param === 'relatorio') {
+            if (window.MIJDashboardPage) await window.MIJDashboardPage.render();
           } else {
-            if (window.MIJDashboardPage) window.MIJDashboardPage.render();
+            if (window.MIJDashboardPage) await window.MIJDashboardPage.render();
           }
           break;
         default:
-          if (window.DashboardPage) window.DashboardPage.render();
+          if (window.DashboardPage) await window.DashboardPage.render();
       }
     } catch (err) {
       console.error('Route error:', err);
@@ -158,7 +162,7 @@ class SJIFApp {
     if (user) {
       const userName = document.getElementById('sidebar-user-name');
       const userRole = document.getElementById('sidebar-user-role');
-      const userAvatar = document.getElementById('sidebar-user-avatar');
+      const userAvatar = document.getElementById('sidebar-avatar');
       if (userName) userName.textContent = user.name;
       if (userRole) {
         const roles = { admin: 'Administrador', analyst: 'Analista', consultant: 'Consultor' };
@@ -325,7 +329,7 @@ class SJIFApp {
     const titleEl = document.getElementById('topbar-title');
     if (titleEl) titleEl.textContent = titles[path] || 'Dashboard';
 
-    const breadcrumb = document.getElementById('topbar-breadcrumb');
+    const breadcrumb = document.getElementById('breadcrumb');
     if (breadcrumb) breadcrumb.textContent = `SJIF / ${titles[path] || 'Dashboard'}`;
   }
 }

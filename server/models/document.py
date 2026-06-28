@@ -13,7 +13,7 @@ class Document(Base):
     __tablename__ = "documents"
 
     id = Column(String(36), primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     name = Column(String(500), nullable=False)
     content = Column(Text, nullable=True)
     type_code = Column(String(20), nullable=True)

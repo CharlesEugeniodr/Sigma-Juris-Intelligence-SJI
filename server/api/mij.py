@@ -2,7 +2,6 @@
 Router MIJ — Motor de Inteligência Judicial.
 Magistrados, decisões, tribunais, simulador de êxito.
 """
-import math
 from datetime import date, datetime, timezone
 from typing import Optional
 
@@ -15,6 +14,7 @@ from server.database import get_db
 from server.models.magistrado import Magistrado
 from server.models.decisao import Decisao
 from server.services.auth_service import get_current_user
+from server.mij.calculators.metricas import MIJCalculator
 
 router = APIRouter(prefix="/api/mij", tags=["MIJ — Motor de Inteligência Judicial"])
 
@@ -344,6 +344,9 @@ async def simular_exito(
 
     result = await db.execute(query.order_by(Decisao.data_decisao.desc()).limit(500))
     decisoes = result.scalars().all()
+
+    calculator = MIJCalculator()
+    # Use the proper calculator instead of inline reimplementation
 
     total_analisadas = len(decisoes)
 

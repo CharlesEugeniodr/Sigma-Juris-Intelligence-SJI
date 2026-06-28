@@ -101,7 +101,7 @@ window.DashboardPage = {
     // --- Welcome ---
     const welcome = document.createElement('div');
     welcome.className = 'dash-welcome animate-in';
-    welcome.innerHTML = '<h2>Bem-vindo, ' + (user ? user.name : 'Usuário') + '</h2>' +
+    welcome.innerHTML = '<h2>Bem-vindo, ' + window.SJIFUtils.escapeHtml(user ? user.name : 'Usuário') + '</h2>' +
       '<span class="dash-welcome-date">' + formattedDate + '</span>';
     container.appendChild(welcome);
 
@@ -207,7 +207,7 @@ window.DashboardPage = {
         var typeName = doc.typeName || doc.type || 'N/A';
 
         tableHtml += '<tr class="dash-recent-row" data-doc-id="' + doc.id + '">' +
-          '<td>' + window.SJIFUtils.truncate(doc.name || doc.fileName || 'Sem nome', 50) + '</td>' +
+          '<td>' + window.SJIFUtils.escapeHtml(window.SJIFUtils.truncate(doc.name || doc.fileName || 'Sem nome', 50)) + '</td>' +
           '<td><span class="badge">' + typeName + '</span></td>' +
           '<td><span class="' + scoreClass + '">' + (typeof score === 'number' ? score + '%' : score) + '</span></td>' +
           '<td>' + dateStr + '</td>' +

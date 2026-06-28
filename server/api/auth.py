@@ -2,7 +2,7 @@
 Router de autenticação — login, registro e perfil.
 """
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -82,6 +82,12 @@ async def register(body: RegisterRequest, db: AsyncSession = Depends(get_db)):
             status_code=status.HTTP_409_CONFLICT,
             detail="E-mail já cadastrado",
         )
+
+    if body.role not in ('analyst', 'viewer'):
+        raise HTTPException(status_code=403, detail='Cannot self-register as admin')
+
+    if len(body.password) < 8:
+        raise HTTPException(status_code=422, detail='Senha deve ter pelo menos 8 caracteres')
 
     avatar = body.avatar
     if not avatar:

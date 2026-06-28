@@ -13,8 +13,6 @@ Inclui:
 import logging
 import random
 from datetime import datetime, timedelta, timezone
-from typing import Optional
-
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from server.models.decisao import Decisao

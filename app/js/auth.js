@@ -25,37 +25,10 @@
     }
 
     /**
-     * Built-in user catalogue.
-     * Each entry contains the credentials, display metadata and permission set
-     * used during login validation.
-     *
-     * @static
-     * @type {Array<{email:string, password:string, name:string, role:string, avatar:string, permissions:string[]}>}
-     */
-    static USERS = [
-      {
-        email: 'admin@sigma.juris',
-        password: 'Sigma2026!',
-        name: 'Charles Eugênio',
-        role: 'admin',
-        avatar: 'CE',
-        permissions: ['read', 'write', 'delete', 'admin', 'export', 'analyze']
-      },
-      {
-        email: 'analista@sigma.juris',
-        password: 'Analista2026!',
-        name: 'Ana Silva',
-        role: 'analyst',
-        avatar: 'AS',
-        permissions: ['read', 'write', 'analyze']
-      }
-    ];
-
-    /**
-     * Authenticate a user with e-mail and password.
+     * Authenticate a user via the backend API.
      *
      * On success a session object is persisted to localStorage and the method
-     * returns the sanitised user profile together with a generated token.
+     * returns the sanitised user profile together with the API token.
      *
      * @param   {string} email    — User e-mail address.
      * @param   {string} password — Plain-text password.
@@ -67,25 +40,44 @@
         return { success: false, error: 'E-mail e senha são obrigatórios.' };
       }
 
-      const user = SJIFAuth.USERS.find(
-        u => u.email.toLowerCase() === email.toLowerCase() && u.password === password
-      );
-
-      if (!user) {
-        return { success: false, error: 'Credenciais inválidas. Verifique e-mail e senha.' };
+      // Send credentials to backend API
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/api/auth/login', false); // synchronous to match existing call-sites
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      try {
+        xhr.send(JSON.stringify({ email: email, password: password }));
+      } catch (e) {
+        return { success: false, error: 'Erro de conexão com o servidor.' };
       }
 
-      const token = btoa(
-        user.email + ':' + Date.now() + ':' + Math.random().toString(36).substr(2)
+      if (xhr.status !== 200) {
+        var errMsg = 'Credenciais inválidas. Verifique e-mail e senha.';
+        try {
+          var errBody = JSON.parse(xhr.responseText);
+          if (errBody && errBody.error) errMsg = errBody.error;
+        } catch (e) { /* use default */ }
+        return { success: false, error: errMsg };
+      }
+
+      var data;
+      try {
+        data = JSON.parse(xhr.responseText);
+      } catch (e) {
+        return { success: false, error: 'Resposta inválida do servidor.' };
+      }
+
+      var user = data.user || {};
+      var token = data.token || btoa(
+        email + ':' + Date.now() + ':' + Math.random().toString(36).substr(2)
       );
 
-      const session = {
+      var session = {
         user: {
-          email: user.email,
-          name: user.name,
-          role: user.role,
-          avatar: user.avatar,
-          permissions: user.permissions
+          email: user.email || email,
+          name: user.name || email,
+          role: user.role || 'analyst',
+          avatar: user.avatar || (user.name || email).split(' ').map(function(n){ return n[0]; }).join('').substring(0,2).toUpperCase(),
+          permissions: user.permissions || ['read']
         },
         token: token,
         loginAt: new Date().toISOString(),
