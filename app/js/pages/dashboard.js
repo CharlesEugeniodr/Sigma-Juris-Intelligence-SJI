@@ -236,6 +236,51 @@ window.DashboardPage = {
       container.appendChild(noData);
     }
 
+    // --- Motor de Inteligência Judicial (Backend API Stats) ---
+    try {
+      const token = window.app && window.app.auth && window.app.auth.getSession
+        ? (window.app.auth.getSession() || {}).token
+        : null;
+      const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+      const resp = await fetch('/api/mij/stats', { headers });
+      if (resp.ok) {
+        const mijStats = await resp.json();
+
+        var mijSection = document.createElement('div');
+        mijSection.className = 'animate-in';
+        mijSection.style.marginTop = '32px';
+
+        var mijHeader = document.createElement('h3');
+        mijHeader.style.cssText = 'font-family:var(--font-display);color:var(--text-heading);margin-bottom:16px;font-size:1.1rem';
+        mijHeader.textContent = '🧠 Motor de Inteligência Judicial';
+        mijSection.appendChild(mijHeader);
+
+        var mijStatsData = [
+          { icon: '👨‍⚖️', value: window.SJIFUtils.formatNumber(mijStats.totalJulgadores || 0), label: 'Total Julgadores' },
+          { icon: '📜', value: window.SJIFUtils.formatNumber(mijStats.totalDecisoes || 0), label: 'Total Decisões' },
+          { icon: '🏛️', value: window.SJIFUtils.formatNumber(mijStats.totalTribunais || 0), label: 'Total Tribunais' }
+        ];
+
+        var mijGrid = document.createElement('div');
+        mijGrid.className = 'dash-stats grid grid-3';
+        mijStatsData.forEach(function(s, i) {
+          var card = document.createElement('div');
+          card.className = 'stat-card animate-in';
+          card.style.animationDelay = (i * 80) + 'ms';
+          card.innerHTML =
+            '<div class="dash-stat-icon">' + s.icon + '</div>' +
+            '<div class="stat-value">' + s.value + '</div>' +
+            '<div class="stat-label">' + s.label + '</div>';
+          mijGrid.appendChild(card);
+        });
+        mijSection.appendChild(mijGrid);
+
+        container.appendChild(mijSection);
+      }
+    } catch (e) {
+      // Backend offline or unavailable — show local data only, no error displayed
+    }
+
     // --- Animate in ---
     window.SJIFUtils.staggerIn(container.querySelectorAll('.animate-in'), 80);
   }

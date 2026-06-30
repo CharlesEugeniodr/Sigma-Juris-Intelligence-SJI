@@ -154,6 +154,28 @@ class SJIFApp {
             }
           }
           break;
+        case 'termos':
+          container.innerHTML = `
+            <div style="max-width:800px;margin:0 auto;padding:32px">
+              <h1 style="font-family:var(--font-display);color:var(--text-heading);margin-bottom:24px">Termos de Uso e Política de Privacidade</h1>
+              <div style="color:var(--text-muted);line-height:1.8;font-size:0.9rem">
+                <h2 style="color:var(--text-heading);margin:24px 0 12px">1. Dados Coletados</h2>
+                <p>O SJIF coleta apenas os dados estritamente necessários: nome, e-mail e documentos enviados para análise.</p>
+                <h2 style="color:var(--text-heading);margin:24px 0 12px">2. Finalidade</h2>
+                <p>Os dados são utilizados exclusivamente para análise documental jurídica e geração de métricas de inteligência judicial.</p>
+                <h2 style="color:var(--text-heading);margin:24px 0 12px">3. Compartilhamento</h2>
+                <p>Seus dados não são compartilhados com terceiros em nenhuma hipótese.</p>
+                <h2 style="color:var(--text-heading);margin:24px 0 12px">4. Direito ao Esquecimento (LGPD Art. 18)</h2>
+                <p>Você pode solicitar a exclusão total de seus dados a qualquer momento através das Configurações da sua conta ou enviando e-mail para contato@sigmajuris.com.br.</p>
+                <h2 style="color:var(--text-heading);margin:24px 0 12px">5. Segurança</h2>
+                <p>Utilizamos criptografia bcrypt para senhas, JWT para autenticação, rate limiting para proteção contra ataques, e todas as comunicações são protegidas por HTTPS.</p>
+                <h2 style="color:var(--text-heading);margin:24px 0 12px">6. Contato</h2>
+                <p>Encarregado de Proteção de Dados: contato@sigmajuris.com.br</p>
+              </div>
+              <button class="btn btn-outline" onclick="history.back()" style="margin-top:32px">← Voltar</button>
+            </div>
+          `;
+          break;
         default:
           if (window.DashboardPage) await window.DashboardPage.render();
       }
@@ -395,6 +417,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             localStorage.setItem('lgpd_accepted', 'true');
             lgpdBanner.style.display = 'none';
         });
+    }
+
+    // --- Global Search Handler ---
+    var searchInput = document.getElementById('global-search');
+    if (searchInput) {
+      searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && searchInput.value.trim()) {
+          var query = searchInput.value.trim().toLowerCase();
+          window.location.hash = '#/documents?q=' + encodeURIComponent(query);
+          searchInput.value = '';
+        }
+      });
     }
   } catch (err) {
     console.error('❌ SJIF App initialization error:', err);

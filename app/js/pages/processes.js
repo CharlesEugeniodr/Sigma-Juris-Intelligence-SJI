@@ -84,7 +84,10 @@ window.ProcessesPage = {
 
               <div style="display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--border)">
                 <span style="font-size:0.75rem;color:var(--text-muted)">📄 ${linkedDocs.length} documento(s)</span>
-                <button class="btn btn-sm btn-outline" onclick="ProcessesPage.deleteProcess('${proc.id}')">🗑️</button>
+                <div style="display:flex;gap:6px">
+                  <button class="btn btn-sm btn-outline" onclick="ProcessesPage.editProcess('${proc.id}')" title="Editar">✏️</button>
+                  <button class="btn btn-sm btn-outline" onclick="ProcessesPage.deleteProcess('${proc.id}')" title="Excluir">🗑️</button>
+                </div>
               </div>
             </div>
           </div>
@@ -92,69 +95,108 @@ window.ProcessesPage = {
       }).join('');
     }
 
-    // New Process modal
-    btnNew.addEventListener('click', () => {
+    // Shared modal for New / Edit
+    function openProcessModal(existingProc) {
+      const isEdit = !!existingProc;
+      const title = isEdit ? 'Editar Processo' : 'Novo Processo';
+
       const formHTML = `
-        <form id="new-process-form">
+        <form id="process-form">
           <div style="margin-bottom:16px">
             <label style="display:block;font-size:0.8rem;color:var(--text-muted);margin-bottom:6px">Número do Processo</label>
-            <input type="text" class="input" id="proc-number" placeholder="0001234-56.2026.8.13.0001" style="width:100%">
+            <input type="text" class="input" id="proc-number" placeholder="0001234-56.2026.8.13.0001" style="width:100%" value="${isEdit ? (existingProc.number || '') : ''}">
             <small style="color:var(--text-muted);font-size:0.7rem">Deixe em branco para gerar automaticamente</small>
           </div>
 
           <div style="margin-bottom:16px">
             <label style="display:block;font-size:0.8rem;color:var(--text-muted);margin-bottom:6px">Área</label>
             <select class="select" id="proc-area" style="width:100%">
-              ${categories.map(c => `<option value="${c.id}">${c.icon} ${c.name}</option>`).join('')}
+              ${categories.map(c => `<option value="${c.id}" ${isEdit && existingProc.area === c.id ? 'selected' : ''}>${c.icon} ${c.name}</option>`).join('')}
             </select>
           </div>
 
           <div style="margin-bottom:16px">
             <label style="display:block;font-size:0.8rem;color:var(--text-muted);margin-bottom:6px">Vara / Tribunal</label>
-            <input type="text" class="input" id="proc-court" placeholder="Ex: 5ª Vara Cível de Belo Horizonte" style="width:100%">
+            <input type="text" class="input" id="proc-court" placeholder="Ex: 5ª Vara Cível de Belo Horizonte" style="width:100%" value="${isEdit ? (existingProc.court || '') : ''}">
           </div>
 
           <div style="margin-bottom:16px">
             <label style="display:block;font-size:0.8rem;color:var(--text-muted);margin-bottom:6px">Status</label>
             <select class="select" id="proc-status" style="width:100%">
-              <option value="Ativo">Ativo</option>
-              <option value="Suspenso">Suspenso</option>
-              <option value="Arquivado">Arquivado</option>
+              <option value="Ativo" ${isEdit && existingProc.status === 'Ativo' ? 'selected' : ''}>Ativo</option>
+              <option value="Suspenso" ${isEdit && existingProc.status === 'Suspenso' ? 'selected' : ''}>Suspenso</option>
+              <option value="Arquivado" ${isEdit && existingProc.status === 'Arquivado' ? 'selected' : ''}>Arquivado</option>
             </select>
           </div>
         </form>
       `;
 
       if (window.SJIFUtils && window.SJIFUtils.showModal) {
-        window.SJIFUtils.showModal('Novo Processo', formHTML, [
+        window.SJIFUtils.showModal(title, formHTML, [
           { label: 'Cancelar', class: 'btn btn-secondary', onClick: () => window.SJIFUtils.closeModal() },
-          { label: 'Salvar Processo', class: 'btn btn-primary', onClick: async () => {
-            const number = document.getElementById('proc-number').value || window.SJIFUtils.generateProcessNumber();
+          { label: isEdit ? 'Atualizar Processo' : 'Salvar Processo', class: 'btn btn-primary', onClick: async () => {
+            const number = document.getElementById('proc-number').value || (isEdit ? existingProc.number : window.SJIFUtils.generateProcessNumber());
             const area = document.getElementById('proc-area').value;
             const court = document.getElementById('proc-court').value;
             const status = document.getElementById('proc-status').value;
 
-            const newProcess = {
-              id: window.SJIFUtils.generateId(),
-              number,
-              area,
-              court,
-              status,
-              documents: [],
-              createdAt: new Date().toISOString()
-            };
-
-            await window.app.store.addProcess(newProcess);
-            processes.push(newProcess);
-            window.SJIFUtils.closeModal();
-            window.SJIFUtils.showToast('Processo cadastrado com sucesso!', 'success');
-            renderProcesses();
+            try {
+              if (isEdit) {
+                await window.app.store.updateProcess(existingProc.id, { number, area, court, status });
+                window.SJIFUtils.closeModal();
+                window.SJIFUtils.showToast('Processo atualizado com sucesso!', 'success');
+              } else {
+                const newProcess = {
+                  id: window.SJIFUtils.generateId(),
+                  number,
+                  area,
+                  court,
+                  status,
+                  documents: [],
+                  createdAt: new Date().toISOString()
+                };
+                await window.app.store.addProcess(newProcess);
+                window.SJIFUtils.closeModal();
+                window.SJIFUtils.showToast('Processo cadastrado com sucesso!', 'success');
+              }
+              ProcessesPage.render();
+            } catch (e) {
+              window.SJIFUtils.showToast('Erro ao salvar: ' + e.message, 'error');
+            }
           }}
         ]);
       }
-    });
+    }
+
+    // New Process button
+    btnNew.addEventListener('click', () => openProcessModal(null));
+
+    // Expose openProcessModal for editProcess
+    this._openProcessModal = openProcessModal;
 
     renderProcesses();
+  },
+
+  async editProcess(id) {
+    try {
+      const proc = await window.app.store.getProcess(id);
+      if (!proc) {
+        SJIFUtils.showToast('Processo não encontrado', 'error');
+        return;
+      }
+      if (this._openProcessModal) {
+        this._openProcessModal(proc);
+      } else {
+        // Modal helper not yet initialized — re-render first
+        await this.render();
+        const reloaded = await window.app.store.getProcess(id);
+        if (reloaded && this._openProcessModal) {
+          this._openProcessModal(reloaded);
+        }
+      }
+    } catch (e) {
+      SJIFUtils.showToast('Erro ao carregar processo: ' + e.message, 'error');
+    }
   },
 
   async deleteProcess(id) {
@@ -162,9 +204,10 @@ window.ProcessesPage = {
     try {
       await window.app.store.deleteProcess(id);
       SJIFUtils.showToast('Processo excluído com sucesso', 'success');
-      ProcessesPage.render(document.getElementById('page-container'));
+      ProcessesPage.render();
     } catch(e) {
       SJIFUtils.showToast('Erro ao excluir: ' + e.message, 'error');
     }
   }
 };
+

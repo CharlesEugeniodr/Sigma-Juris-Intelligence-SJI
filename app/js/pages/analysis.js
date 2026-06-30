@@ -268,6 +268,31 @@ window.AnalysisPage = {
         text-align: center;
         padding: 24px;
       }
+      .analysis-elements-radar {
+        padding: 24px;
+      }
+      .analysis-elements-radar .chart-container {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      .analysis-suggestions-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .analysis-suggestions-list li {
+        padding: 10px 14px;
+        margin-bottom: 8px;
+        border-left: 3px solid var(--gold);
+        background: rgba(212,175,55,0.06);
+        border-radius: var(--radius-sm);
+        font-size: 0.85rem;
+        line-height: 1.5;
+        color: var(--text);
+      }
+      .analysis-suggestions-list li::before {
+        content: '💡 ';
+      }
     `;
     container.appendChild(style);
 
@@ -372,6 +397,97 @@ window.AnalysisPage = {
     elemBody.appendChild(elemGrid);
     elementsCard.appendChild(elemBody);
     leftCol.appendChild(elementsCard);
+
+    // --- Radar Chart: 9 SJIF Elements ---
+    var elemRadarCard = document.createElement('div');
+    elemRadarCard.className = 'card animate-in';
+    elemRadarCard.innerHTML = '<div class="card-header">Radar dos 9 Elementos</div>';
+    var elemRadarBody = document.createElement('div');
+    elemRadarBody.className = 'analysis-elements-radar';
+    var elemRadarContainer = document.createElement('div');
+    elemRadarContainer.className = 'chart-container';
+    var elemRadarCanvas = document.createElement('canvas');
+    elemRadarCanvas.id = 'analysis-radar-chart';
+    elemRadarContainer.appendChild(elemRadarCanvas);
+    elemRadarBody.appendChild(elemRadarContainer);
+    elemRadarCard.appendChild(elemRadarBody);
+    leftCol.appendChild(elemRadarCard);
+
+    // Build radar data from the 9 elements
+    var radarLabels = [];
+    var radarScores = [];
+    elementDefs.forEach(function(def) {
+      radarLabels.push(def.name);
+      var el = elements[def.key] || {};
+      radarScores.push(el.score || 0);
+    });
+
+    // Create the chart after canvas is in the DOM (deferred)
+    setTimeout(function() {
+      var radarCtx = document.getElementById('analysis-radar-chart');
+      if (radarCtx && typeof Chart !== 'undefined') {
+        try {
+          new Chart(radarCtx, {
+            type: 'radar',
+            data: {
+              labels: radarLabels,
+              datasets: [{
+                label: 'Score por Elemento',
+                data: radarScores,
+                backgroundColor: 'rgba(212, 175, 55, 0.15)',
+                borderColor: '#D4AF37',
+                borderWidth: 2,
+                pointBackgroundColor: '#D4AF37',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: '#D4AF37',
+                pointRadius: 4,
+                pointHoverRadius: 6
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              scales: {
+                r: {
+                  beginAtZero: true,
+                  max: 100,
+                  grid: { color: 'rgba(255,255,255,0.05)' },
+                  angleLines: { color: 'rgba(255,255,255,0.05)' },
+                  pointLabels: { color: '#8E9AAB', font: { size: 11 } },
+                  ticks: { display: false }
+                }
+              },
+              plugins: {
+                legend: { display: false }
+              }
+            }
+          });
+        } catch (e) {
+          console.warn('SJIF: Could not create elements radar chart', e);
+        }
+      }
+    }, 50);
+
+    // --- Sugestões de Melhoria ---
+    var sugestoes = analysis.sugestoes || analysis.suggestions || [];
+    if (sugestoes.length > 0) {
+      var sugCard = document.createElement('div');
+      sugCard.className = 'card animate-in';
+      sugCard.innerHTML = '<div class="card-header" style="color:var(--gold)">📝 Sugestões de Melhoria</div>';
+      var sugBody = document.createElement('div');
+      sugBody.className = 'card-body';
+      var sugList = document.createElement('ul');
+      sugList.className = 'analysis-suggestions-list';
+      sugestoes.forEach(function(s) {
+        var li = document.createElement('li');
+        li.textContent = typeof s === 'string' ? s : (s.text || s.description || s.titulo || JSON.stringify(s));
+        sugList.appendChild(li);
+      });
+      sugBody.appendChild(sugList);
+      sugCard.appendChild(sugBody);
+      leftCol.appendChild(sugCard);
+    }
 
     // Entities section
     var entitiesCard = document.createElement('div');
@@ -558,7 +674,17 @@ window.AnalysisPage = {
     const btnDocx = container.querySelector('#btn-export-docx');
     if (btnDocx) {
         btnDocx.addEventListener('click', () => {
-            alert("A exportação para DOCX nativo está em desenvolvimento. Por favor, use a exportação PDF.");
+            var content = container.querySelector('.analysis-layout') || container;
+            var header = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>Relatório SJIF</title></head><body>';
+            var footer = '</body></html>';
+            var html = header + content.innerHTML + footer;
+            var blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'relatorio-sjif.doc';
+            a.click();
+            URL.revokeObjectURL(url);
         });
     }
 

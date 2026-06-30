@@ -181,6 +181,11 @@
       return merged;
     }
 
+    async deleteProcess(id) {
+      var store = this._getStore('processes', 'readwrite');
+      return this._promisify(store.delete(id));
+    }
+
     // ════════════════════════════════════════════════════════════════════
     //  Analyses CRUD
     // ════════════════════════════════════════════════════════════════════

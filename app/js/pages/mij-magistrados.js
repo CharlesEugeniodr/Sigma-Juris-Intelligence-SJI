@@ -344,7 +344,17 @@ window.MIJMagistradosPage = {
       const btnDocx = container.querySelector('#btn-export-docx');
       if (btnDocx) {
           btnDocx.addEventListener('click', () => {
-              alert("A exportação para DOCX nativo está em desenvolvimento. Por favor, use a exportação PDF.");
+              var content = container.querySelector('.animate-in') || container;
+              var header = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>Relatório SJIF</title></head><body>';
+              var footer = '</body></html>';
+              var html = header + content.innerHTML + footer;
+              var blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+              var url = URL.createObjectURL(blob);
+              var a = document.createElement('a');
+              a.href = url;
+              a.download = 'relatorio-sjif.doc';
+              a.click();
+              URL.revokeObjectURL(url);
           });
       }
 
