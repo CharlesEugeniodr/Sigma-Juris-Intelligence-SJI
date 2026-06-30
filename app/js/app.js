@@ -113,6 +113,11 @@ class SJIFApp {
           if (window.ProcessesPage) await window.ProcessesPage.render();
           break;
         case 'settings':
+          // Admin-only route guard
+          if (!this.auth.isAdmin()) {
+            window.location.hash = '#/dashboard';
+            return;
+          }
           if (window.SettingsPage) await window.SettingsPage.render();
           break;
         // MIJ Routes (lazy-loaded — graceful fallback if module not yet available)
@@ -185,10 +190,20 @@ class SJIFApp {
       const userAvatar = document.getElementById('sidebar-avatar');
       if (userName) userName.textContent = user.name;
       if (userRole) {
-        const roles = { admin: 'Administrador', analyst: 'Analista', consultant: 'Consultor' };
+        const roles = { admin: 'Administrador', analyst: 'Analista', viewer: 'Visualizador' };
         userRole.textContent = roles[user.role] || user.role;
       }
       if (userAvatar) userAvatar.textContent = user.avatar || user.name.split(' ').map(n => n[0]).join('').substring(0, 2);
+
+      // Role-based sidebar visibility: hide items with data-role that don't match
+      document.querySelectorAll('.sidebar-nav-item[data-role]').forEach(item => {
+        const requiredRole = item.getAttribute('data-role');
+        if (requiredRole && user.role !== requiredRole) {
+          item.style.display = 'none';
+        } else {
+          item.style.display = '';
+        }
+      });
     }
   }
 
