@@ -38,7 +38,7 @@ window.MIJDashboardPage = {
       <div class="grid-4" style="gap:16px;margin-bottom:32px">
         <div class="stat-card">
           <div class="stat-value">${stats ? stats.total_magistrados : '—'}</div>
-          <div class="stat-label">👨‍⚖️ Magistrados Mapeados</div>
+          <div class="stat-label">🧑‍⚖️ Julgadores Mapeados</div>
         </div>
         <div class="stat-card">
           <div class="stat-value">${stats ? stats.total_decisoes : '—'}</div>
@@ -91,8 +91,8 @@ window.MIJDashboardPage = {
              onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
           <div class="card-body" style="padding:32px;text-align:center">
             <div style="font-size:2.5rem;margin-bottom:12px">👨‍⚖️</div>
-            <h3 style="color:var(--text-heading);font-size:1rem;margin-bottom:8px">Consultar Magistrado</h3>
-            <p style="color:var(--text-muted);font-size:0.8rem">Perfil decisório, tendências e métricas por magistrado</p>
+            <h3 style="color:var(--text-heading);font-size:1rem;margin-bottom:8px">Consultar Julgador</h3>
+            <p style="color:var(--text-muted);font-size:0.8rem">Perfil decisório, tendências e métricas por julgador</p>
           </div>
         </div>
 

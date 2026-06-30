@@ -15,9 +15,9 @@ window.MIJMagistradosPage = {
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:16px">
         <div>
           <h2 style="font-family:var(--font-display);color:var(--text-heading);margin-bottom:4px">
-            👨‍⚖️ Consulta de Magistrados
+            👨‍⚖️ Consulta de Julgadores
           </h2>
-          <p style="color:var(--text-muted);font-size:0.85rem">Perfil decisório e tendências por magistrado</p>
+          <p style="color:var(--text-muted);font-size:0.85rem">Perfil decisório e tendências por julgador</p>
         </div>
         <button class="btn btn-outline" onclick="window.location.hash='#/mij'">← Voltar</button>
       </div>
@@ -26,7 +26,7 @@ window.MIJMagistradosPage = {
       <div class="card" style="margin-bottom:24px">
         <div class="card-body" style="padding:24px">
           <div style="display:flex;gap:12px;flex-wrap:wrap">
-            <input type="text" class="input" id="mij-search-nome" placeholder="Nome do magistrado..." style="flex:2;min-width:200px">
+            <input type="text" class="input" id="mij-search-nome" placeholder="Nome do julgador..." style="flex:2;min-width:200px">
             <select class="select" id="mij-search-tribunal" style="flex:1;min-width:140px">
               <option value="">Todos os Tribunais</option>
               <option value="TJMG">TJMG</option>
@@ -73,7 +73,7 @@ window.MIJMagistradosPage = {
           <div class="empty-state">
             <div style="font-size:3rem;margin-bottom:16px">🔌</div>
             <h3 style="color:var(--text-heading)">API MIJ não disponível</h3>
-            <p style="color:var(--text-muted);margin-bottom:16px">Inicie o servidor backend para consultar magistrados</p>
+            <p style="color:var(--text-muted);margin-bottom:16px">Inicie o servidor backend para consultar julgadores</p>
             <code style="color:var(--gold);font-size:0.8rem;background:rgba(212,175,55,0.08);padding:8px 16px;border-radius:8px">
               python -m uvicorn server.main:app --reload --port 8000
             </code>
@@ -87,7 +87,7 @@ window.MIJMagistradosPage = {
         resultsDiv.innerHTML = `
           <div class="empty-state">
             <div style="font-size:3rem;margin-bottom:16px">🔍</div>
-            <h3 style="color:var(--text-heading)">Nenhum magistrado encontrado</h3>
+            <h3 style="color:var(--text-heading)">Nenhum julgador encontrado</h3>
             <p style="color:var(--text-muted)">Tente outro nome ou tribunal</p>
           </div>
         `;

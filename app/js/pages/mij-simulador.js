@@ -74,8 +74,8 @@ window.MIJSimuladorPage = {
               </div>
 
               <div>
-                <label style="display:block;font-size:0.8rem;color:var(--text-muted);margin-bottom:6px">Magistrado (opcional)</label>
-                <input type="text" class="input" id="sim-magistrado" placeholder="Nome do magistrado..." style="width:100%">
+                <label style="display:block;font-size:0.8rem;color:var(--text-muted);margin-bottom:6px">Julgador (opcional)</label>
+                <input type="text" class="input" id="sim-magistrado" placeholder="Nome do julgador..." style="width:100%">
                 <small style="color:var(--text-muted);font-size:0.7rem">Deixe em branco para análise geral do tribunal</small>
               </div>
 
