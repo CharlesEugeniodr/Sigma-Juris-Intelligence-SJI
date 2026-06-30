@@ -145,6 +145,7 @@ window.ProcessesPage = {
                 await window.app.store.updateProcess(existingProc.id, { number, area, court, status });
                 window.SJIFUtils.closeModal();
                 window.SJIFUtils.showToast('Processo atualizado com sucesso!', 'success');
+                if(window.SJIF_notify) SJIF_notify('Processo atualizado!', 'success');
               } else {
                 const newProcess = {
                   id: window.SJIFUtils.generateId(),
@@ -158,6 +159,7 @@ window.ProcessesPage = {
                 await window.app.store.addProcess(newProcess);
                 window.SJIFUtils.closeModal();
                 window.SJIFUtils.showToast('Processo cadastrado com sucesso!', 'success');
+                if(window.SJIF_notify) SJIF_notify('Processo cadastrado!', 'success');
               }
               ProcessesPage.render();
             } catch (e) {
@@ -204,6 +206,7 @@ window.ProcessesPage = {
     try {
       await window.app.store.deleteProcess(id);
       SJIFUtils.showToast('Processo excluído com sucesso', 'success');
+      if(window.SJIF_notify) SJIF_notify('Processo excluído!', 'success');
       ProcessesPage.render();
     } catch(e) {
       SJIFUtils.showToast('Erro ao excluir: ' + e.message, 'error');

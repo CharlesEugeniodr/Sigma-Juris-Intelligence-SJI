@@ -8,6 +8,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.base import BaseHTTPMiddleware
 
 from server.config import settings
 from server.database import init_db, async_session
@@ -40,11 +41,17 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Sigma—Juris Intelligence API",
-    version="3.1.0",
-    description="API do Motor de Inteligência Judicial (MIJ) — "
-    "Plataforma de inteligência jurídica para análise de documentos, "
-    "processos e magistrados.",
+    title="Sigma Juris Intelligence Framework API",
+    description="API do Motor de Inteligência Judicial (MIJ) e Sistema de Análise Documental. Documentação completa dos endpoints para integração.",
+    version="3.3.0",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_tags=[
+        {"name": "Autenticação", "description": "Login, registro, logout e gestão de conta"},
+        {"name": "Documentos", "description": "Upload, análise e gestão de documentos jurídicos"},
+        {"name": "Processos", "description": "CRUD de processos judiciais"},
+        {"name": "MIJ", "description": "Motor de Inteligência Judicial — julgadores, simulador, scrapers"},
+    ],
     lifespan=lifespan,
 )
 
@@ -57,11 +64,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+# ─── Security Headers ──────────────────────────────────────────────
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        response = await call_next(request)
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["X-XSS-Protection"] = "1; mode=block"
+        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+        response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+        return response
+
+
+app.add_middleware(SecurityHeadersMiddleware)
+
 # ─── Routers ────────────────────────────────────────────────────────
-app.include_router(auth_router)
-app.include_router(documents_router)
-app.include_router(processes_router)
-app.include_router(mij_router)
+app.include_router(auth_router, tags=["Autenticação"])
+app.include_router(documents_router, tags=["Documentos"])
+app.include_router(processes_router, tags=["Processos"])
+app.include_router(mij_router, tags=["MIJ"])
 
 # ─── Static Files (Frontend) ───────────────────────────────────────
 app_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "app")
@@ -74,8 +96,8 @@ if os.path.isdir(app_dir):
 async def root():
     """Informações da API."""
     return {
-        "nome": "Sigma—Juris Intelligence API",
-        "versão": "3.1.0",
+        "nome": "Sigma Juris Intelligence Framework API",
+        "versão": "3.3.0",
         "descrição": "Motor de Inteligência Judicial (MIJ)",
         "status": "operacional",
         "endpoints": {

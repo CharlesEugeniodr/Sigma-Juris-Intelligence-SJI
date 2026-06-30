@@ -1,0 +1,10 @@
+{
+  "name": "Sigma Juris Intelligence",
+  "short_name": "SJIF",
+  "description": "Sistema Integrado de Inteligência Jurídica",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0A0E14",
+  "theme_color": "#D4AF37",
+  "icons": []
+}

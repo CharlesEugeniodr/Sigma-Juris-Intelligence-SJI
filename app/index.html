@@ -19,6 +19,10 @@
     <!-- Chart.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#D4AF37">
+
     <!-- Styles -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -114,6 +118,7 @@
                             </svg>
                             <input type="text" class="search-input" id="global-search" placeholder="Buscar documentos, processos, julgadores...">
                         </div>
+                        <button id="theme-toggle" class="btn btn-outline btn-sm" style="padding:6px 10px;font-size:1rem" title="Alternar tema">🌙</button>
                         <button class="topbar-icon-btn" id="btn-notifications" aria-label="Notificações">
                             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
@@ -190,5 +195,6 @@
         <button id="btn-accept-lgpd" class="btn btn-primary btn-sm">Aceitar e Fechar</button>
     </div>
 
+    <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}</script>
 </body>
 </html>

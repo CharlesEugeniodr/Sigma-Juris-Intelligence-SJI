@@ -242,6 +242,19 @@ window.MIJMagistradosPage = {
           </div>
         </div>
 
+        <!-- Temporal Trend Chart -->
+        <div class="card" id="mij-trend-card" style="margin-bottom:24px">
+          <div class="card-header" style="padding:16px 24px;border-bottom:1px solid var(--border)">
+            <h3 style="color:var(--text-heading);font-size:0.9rem">📈 Tendência Temporal</h3>
+          </div>
+          <div class="card-body" style="padding:24px">
+            <canvas id="mij-trend-chart" style="max-height:250px"></canvas>
+            <div id="mij-trend-empty" style="display:none;text-align:center;padding:20px;color:var(--text-muted);font-size:0.8rem">
+              Dados insuficientes para exibir tendência temporal (mínimo 2 períodos)
+            </div>
+          </div>
+        </div>
+
         <!-- Recent Decisions -->
         <div class="card">
           <div class="card-header" style="padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
@@ -326,6 +339,62 @@ window.MIJMagistradosPage = {
             plugins: { legend: { display: false } }
           }
         });
+      }
+
+      // Render temporal trend chart
+      if (window.Chart) {
+        var months = {};
+        (decisoes || []).forEach(function(d) {
+          var date = new Date(d.data_julgamento || d.data || Date.now());
+          var key = date.getFullYear() + '-' + String(date.getMonth()+1).padStart(2,'0');
+          if (!months[key]) months[key] = { total: 0, procedente: 0 };
+          months[key].total++;
+          if (d.resultado === 'procedente' || d.resultado === 'parcialmente_procedente') months[key].procedente++;
+        });
+
+        var trendLabels = Object.keys(months).sort();
+        var trendData = trendLabels.map(function(k) { return Math.round((months[k].procedente / months[k].total) * 100); });
+
+        if (trendLabels.length > 1) {
+          setTimeout(function() {
+            try {
+              var trendCanvas = document.getElementById('mij-trend-chart');
+              if (trendCanvas) {
+                var existingTrend = Chart.getChart(trendCanvas);
+                if (existingTrend) existingTrend.destroy();
+                new Chart(trendCanvas, {
+                  type: 'line',
+                  data: {
+                    labels: trendLabels,
+                    datasets: [{
+                      label: 'Taxa de Procedência (%)',
+                      data: trendData,
+                      borderColor: '#D4AF37',
+                      backgroundColor: 'rgba(212,175,55,0.1)',
+                      fill: true,
+                      tension: 0.4,
+                      pointBackgroundColor: '#D4AF37',
+                      pointRadius: 4
+                    }]
+                  },
+                  options: {
+                    responsive: true,
+                    scales: {
+                      y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8E9AAB' } },
+                      x: { grid: { display: false }, ticks: { color: '#8E9AAB', font: { size: 10 } } }
+                    },
+                    plugins: { legend: { labels: { color: '#8E9AAB' } } }
+                  }
+                });
+              }
+            } catch(e) { console.warn('Trend chart error:', e); }
+          }, 100);
+        } else {
+          var trendEmpty = document.getElementById('mij-trend-empty');
+          var trendChartEl = document.getElementById('mij-trend-chart');
+          if (trendEmpty) trendEmpty.style.display = 'block';
+          if (trendChartEl) trendChartEl.style.display = 'none';
+        }
       }
 
       // --- Export Buttons Event Listeners ---

@@ -456,6 +456,7 @@ window.UploadPage = {
 
         await store.addDocument(doc);
         window.SJIFUtils.showToast('Documento analisado e salvo com sucesso!', 'success');
+        if(window.SJIF_notify) SJIF_notify('Documento analisado com sucesso!', 'success');
         window.location.hash = '#/analysis/' + docId;
       } catch (err) {
         processingDiv.remove();

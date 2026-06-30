@@ -1554,3 +1554,28 @@ textarea {
         padding: 32px 24px;
     }
 }
+
+
+/* ─── Light Theme Overrides ─────────────────────────────────── */
+[data-theme='light'] {
+  --bg-primary: #F5F6FA;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --border: #E2E5EA;
+  --text-heading: #1A1D23;
+  --text-body: #3D4450;
+  --text-muted: #6B7A8D;
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.08);
+}
+[data-theme='light'] .sidebar {
+  background: #FFFFFF;
+  border-right: 1px solid #E2E5EA;
+}
+[data-theme='light'] .topbar {
+  background: rgba(255,255,255,0.9);
+  border-bottom: 1px solid #E2E5EA;
+}
+
+
+/* ─── Notification Toast Animation ──────────────────────────── */
+@keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }

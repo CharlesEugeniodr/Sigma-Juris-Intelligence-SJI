@@ -419,6 +419,32 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // --- Theme Toggle ---
+    var themeBtn = document.getElementById('theme-toggle');
+    if (themeBtn) {
+      var saved = localStorage.getItem('sjif_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+      themeBtn.textContent = saved === 'dark' ? '☀️' : '🌙';
+      themeBtn.addEventListener('click', function() {
+        var current = document.documentElement.getAttribute('data-theme') || 'dark';
+        var next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('sjif_theme', next);
+        themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+      });
+    }
+
+    // --- In-App Notification System ---
+    window.SJIF_notify = function(message, type) {
+      type = type || 'info';
+      var colors = { info: '#3B82F6', success: '#10B981', warning: '#F59E0B', error: '#EF4444' };
+      var toast = document.createElement('div');
+      toast.style.cssText = 'position:fixed;top:20px;right:20px;padding:14px 24px;background:' + (colors[type] || colors.info) + ';color:#fff;border-radius:10px;font-size:0.85rem;font-family:Montserrat,sans-serif;z-index:10000;box-shadow:0 8px 32px rgba(0,0,0,0.3);animation:slideIn 0.3s ease;max-width:350px';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(function() { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(function() { toast.remove(); }, 300); }, 4000);
+    };
+
     // --- Global Search Handler ---
     var searchInput = document.getElementById('global-search');
     if (searchInput) {
