@@ -4,14 +4,24 @@
 
 <div align="center">
 
-**v3.0.0** | Tratado Metodológico Completo + Aplicação Web
+**v3.2.1** | Tratado Metodológico Completo + Aplicação Web
 
 *Arquitetura inspirada em frameworks profissionais como ERPs e Sistemas Operacionais*
 
 [![Licença](https://img.shields.io/badge/Licen%C3%A7a-Propriet%C3%A1ria-red.svg)](#licenciamento)
-[![Versão](https://img.shields.io/badge/Vers%C3%A3o-3.0.0-blue.svg)](99_EVOLUCAO/versoes/v3.0.0.md)
+[![Versão](https://img.shields.io/badge/Vers%C3%A3o-3.2.1-blue.svg)](99_EVOLUCAO/versoes/v3.0.0.md)
 [![Capítulos](https://img.shields.io/badge/Cap%C3%ADtulos-40-green.svg)](#sumário-dos-40-capítulos)
 [![Motores](https://img.shields.io/badge/Motores-23%2B-orange.svg)](04_MOTORES/)
+
+</div>
+
+<div align="center">
+
+### 🚀 Acesso Rápido
+
+| 🌐 Plataforma Online | 📦 Código-Fonte | 🏠 Domínio Oficial |
+|:---:|:---:|:---:|
+| **[▶ ACESSAR SJIF](https://charleseugeniodr.github.io/Sigma-Juris-Intelligence-SJI/app/index.html)** | [GitHub](https://github.com/CharlesEugeniodr/Sigma-Juris-Intelligence-SJI) | [sigmajuris.com.br](https://sigmajuris.com.br) *(em breve)* |
 
 </div>
 
