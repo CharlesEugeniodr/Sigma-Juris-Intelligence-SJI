@@ -235,25 +235,18 @@ class SJIFApp {
     var card = document.createElement('div');
     card.className = 'lc';
 
-    // Icon
+    // Logo
     var icon = document.createElement('div');
     icon.style.marginBottom = '20px';
-    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('viewBox', '0 0 60 80');
-    svg.setAttribute('width', '52');
-    svg.setAttribute('height', '68');
-    svg.style.filter = 'drop-shadow(0 0 16px rgba(212,175,55,.25))';
-    var defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-    var grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
-    grad.id = 'lgG'; grad.setAttribute('x1','0%'); grad.setAttribute('y1','0%'); grad.setAttribute('x2','100%'); grad.setAttribute('y2','100%');
-    var s1 = document.createElementNS('http://www.w3.org/2000/svg','stop'); s1.setAttribute('offset','0%'); s1.setAttribute('stop-color','#D4AF37');
-    var s2 = document.createElementNS('http://www.w3.org/2000/svg','stop'); s2.setAttribute('offset','50%'); s2.setAttribute('stop-color','#F2D06B');
-    var s3 = document.createElementNS('http://www.w3.org/2000/svg','stop'); s3.setAttribute('offset','100%'); s3.setAttribute('stop-color','#D4AF37');
-    grad.appendChild(s1); grad.appendChild(s2); grad.appendChild(s3); defs.appendChild(grad); svg.appendChild(defs);
-    var path = document.createElementNS('http://www.w3.org/2000/svg','path');
-    path.setAttribute('d','M 6 6 L 54 6 L 54 14 L 22 14 L 38 38 L 22 62 L 54 62 L 54 70 L 6 70 L 28 38 Z');
-    path.setAttribute('fill','url(#lgG)'); svg.appendChild(path);
-    icon.appendChild(svg); card.appendChild(icon);
+    var logo = document.createElement('img');
+    logo.src = '../assets/brand/logo_principal.jpeg';
+    logo.alt = 'Sigma Juris Intelligence';
+    logo.style.width = '120px';
+    logo.style.height = '120px';
+    logo.style.objectFit = 'contain';
+    logo.style.borderRadius = '16px';
+    logo.style.filter = 'drop-shadow(0 0 20px rgba(212,175,55,.35))';
+    icon.appendChild(logo); card.appendChild(icon);
 
     // Title
     var t = document.createElement('div'); t.className = 'lt'; t.textContent = 'Sigma'; card.appendChild(t);
